@@ -14,12 +14,12 @@ import {
   SelectRegion,
 } from "./CitiesRegions.style";
 
-import MyTravel from "../../MyTravel/MyTravel";
 import GetOptionCities from "../GetOptionCities";
 
 function CitiesRegions() {
   const { country } = useParams();
   const [clicked, setClicked] = useState(true);
+  const [isCity, setIsCity] = useState(null);
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
 
@@ -31,22 +31,17 @@ function CitiesRegions() {
 
   const onOptionChangeCity = (e) => {
     setCity(e.target.value);
-    setClicked(true);
   };
 
   const onOptionChangeRegion = (e) => {
     setRegion(e.target.value);
-    setClicked(true);
   };
-
-  const handleClickCity = () => {
- 
-    setCity(city);
-  };
-
-  const handleClickRegion = () => {
-   
-    setRegion(region);
+  const changeCityRegion = (city) => {
+    if (city === "city") {
+      setIsCity(true);
+    } else {
+      setIsCity(false);
+    }
   };
 
   return (
@@ -64,53 +59,42 @@ function CitiesRegions() {
               </DataContainer>
             </MainContainer>
             <DataContainer>
-            <FiltersContainer>
-              {/*} ?(<SelectRegion disabled></SelectRegion>):(<SelectRegion></SelectRegion>)*/}
-              <SelectCity onChange={onOptionChangeCity} value={city}>
-                {onOptionChangeCity ? (
-                  <SelectRegion disabled></SelectRegion>
-                ) : (
-                  <SelectRegion></SelectRegion>
-                )}
-                <option>Choose a city:</option>
-                {data &&
-                  data.map((e, index) => {
-                    return (
-                      e.city && (<GetOptionCities key={index} value={e.city} />) ||
-                       (<MyTravel  key={index} description={e.description} ></MyTravel>)
-                    );
-                  })}
-              </SelectCity>
-              <ButtonPlan
-                type="submit"
-                data={data}
-                to={`/my-travel/${country}/${city}`}
-                onClick={ handleClickCity}
+              <FiltersContainer
+                isCity={isCity}
+                onClick={() => changeCityRegion("city")}
               >
-                Search
-              </ButtonPlan>
-            </FiltersContainer>
-            <FiltersContainer>
-              <SelectRegion onChange={onOptionChangeRegion} value={region}>
-                <option>Choose a region:</option>
-                {data &&
-                  data.map((e, index) => {
-                    return (
-                      e.region && (
-                        <GetOptionCities key={index} value={e.region} />
-                      )
-                    );
-                  })}
-              </SelectRegion>
-              <ButtonPlan
-              type="submit"
-              data={data}
-              to={`/my-travel/${country}/${region}`}
-              onClick={() => handleClickRegion()}
-            >
-              Search
-            </ButtonPlan>
-            </FiltersContainer>
+                <SelectCity onChange={onOptionChangeCity} value={city}>
+                  <option>Choose a city:</option>
+                  {data &&
+                    data.map((e, index) => {
+                      return (
+                        e.city && <GetOptionCities key={index} value={e.city} />
+                      );
+                    })}
+                </SelectCity>
+                <ButtonPlan to={`/my-travel/${country}/${city}`}>
+                  Search
+                </ButtonPlan>
+              </FiltersContainer>
+              <FiltersContainer
+                isCity={!isCity}
+                onClick={() => changeCityRegion("region")}
+              >
+                <SelectRegion onChange={onOptionChangeRegion} value={region}>
+                  <option>Choose a region:</option>
+                  {data &&
+                    data.map((e, index) => {
+                      return (
+                        e.region && (
+                          <GetOptionCities key={index} value={e.region} />
+                        )
+                      );
+                    })}
+                </SelectRegion>
+                <ButtonPlan to={`/my-travel/${country}/${region}`}>
+                  Search
+                </ButtonPlan>
+              </FiltersContainer>
             </DataContainer>
           </>
         )}

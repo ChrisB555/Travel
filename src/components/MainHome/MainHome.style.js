@@ -48,6 +48,11 @@ export const Buttons = styled.button`
     color: ${WHITE_NEUTRAL};
     border: solid 2px white;
   }
+  &:focus {
+    background: ${DARK_BLUE};
+    color: ${WHITE_NEUTRAL};
+    border: solid 2px white;
+  }
   @media screen and (max-width: 820px) {
     margin-top: 20px;
     width: 70%;
