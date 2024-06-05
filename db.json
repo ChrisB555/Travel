@@ -23,44 +23,46 @@
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNehd2qBgSE2QT5e9gGWEdgALG4HXfuaL1xw&s",
       "description": "Rome is often referred to as the City of Seven Hills due to its geographic location, and also as the Eternal City. Rome is generally considered to be the cradle of Western civilization and Western Christian culture, and the centre of the Catholic Church.",
       "category": "",
-      "period":{
-        "3days":{
-          "day1":"",
-          "day2":"",
-          "day3":""
+      "period":
+        {
+        "threedays":{
+          "dayone":"dff",
+          "daytwo":"ss",
+          "daythree":"ss"
         },
-        "5days":{
-          "day1":"",
-          "day2":"",
-          "day3":"",
-          "day4":"",
-          "day5":""
+        "fivedays":{
+          "dayone":"ff",
+          "daytwo":"jh",
+          "daythree":"df",
+          "dayfour":"dd",
+          "dayfive":"hhh"
         },
-        "7days":{
-          "day1":"",
-          "day2":"",
-          "day3":"",
-          "day4":"",
-          "day5":"",
-          "day6":"",
-          "day7":""
+        "sevendays":{
+          "dayone":"",
+          "daytwo":"",
+          "daythree":"",
+          "dayfour":"",
+          "dayfive":"",
+          "daysix":"",
+          "dayseven":""
         }
-      },
+        }
+      ,
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 2
@@ -96,19 +98,19 @@
       },
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 3
@@ -144,19 +146,19 @@
       },
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 4
@@ -191,19 +193,19 @@
       },
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 5
@@ -238,19 +240,19 @@
       },
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 6
@@ -285,19 +287,19 @@
       },
       "buget":{
         "lowBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "mediumBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         },
         "highBuget":{
-          "acomodation1":"",
-          "acomodation2":"",
-          "acomodation3":""
+          "hotelone":"h1",
+          "hoteltwo":"h2",
+          "hotelthree":"h3"
         }
       },
       "id": 7

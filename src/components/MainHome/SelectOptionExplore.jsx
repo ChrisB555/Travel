@@ -100,8 +100,6 @@ function SelectOptionExplore() {
             </Select>
           </LabelHead>
           <HomeBtn
-            loc="HomeBtn"
-            type="submit"
             data={data}
             to={`/explore/${selectedCountry}/${selectedCity}`}
           >

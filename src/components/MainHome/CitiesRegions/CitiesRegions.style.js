@@ -70,15 +70,7 @@ export const ButtonPlan = styled(Link)`
     height: 25p;
   }
 `;
-export const Select = styled.select`
-  width: 45%;
-  height: 35px;
-  border-radius: 8px;
-  margin: 60px auto;
-  text-align: center;
-  font-weight: 700;
-  font-size: 18px;
-`;
+
 
 export const SelectCity = styled.select`
   width: 45%;

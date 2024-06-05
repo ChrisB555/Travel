@@ -72,7 +72,7 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectCity>
-                <ButtonPlan to={`/my-travel/${country}/${city}`}>
+                <ButtonPlan to={`/my-travel1/${country}/${city}`}>
                   Search
                 </ButtonPlan>
               </FiltersContainer>
@@ -91,7 +91,7 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectRegion>
-                <ButtonPlan to={`/my-travel/${country}/${region}`}>
+                <ButtonPlan to={`/my-travel2/${country}/${region}`}>
                   Search
                 </ButtonPlan>
               </FiltersContainer>
