@@ -13,6 +13,7 @@ export const routes = [
   { title: "Home", href: "home" },
   { title: "About", href: "about" },
   { title: "Itinerary", href: "my-travel" },
+  { title: "My Choses", href: "my-choses" },
   { title: "Contact", href: "contact" },
 ];
 

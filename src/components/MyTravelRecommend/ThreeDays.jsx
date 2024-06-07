@@ -11,21 +11,21 @@ function ThreeDays({ period }) {
       <MainContainerRecommend>
         
         <DataContainerRecommend>
-        <TextRecommend> day1:</TextRecommend>
+        <TextRecommend> day one:</TextRecommend>
         <TextContainerRecommend>
           {period.threedays.dayone}
         </TextContainerRecommend>
         </DataContainerRecommend>
 
         <DataContainerRecommend>
-        <TextRecommend>day2:</TextRecommend>
+        <TextRecommend>day two:</TextRecommend>
         <TextContainerRecommend>
           {period.threedays.daytwo}
         </TextContainerRecommend>
         </DataContainerRecommend>
 
         <DataContainerRecommend>
-        <TextRecommend>day3:</TextRecommend>
+        <TextRecommend>day three:</TextRecommend>
         <TextContainerRecommend>
           {period.threedays.daythree}
         </TextContainerRecommend>

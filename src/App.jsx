@@ -10,6 +10,7 @@ import Explore from "./components/Explore/Explore";
 import MyTravelCity from "./components/MyTravelCity/MyTravelCity";
 import MyTravelRegion from "./components/MyTravelRegion/MyTravelRegion";
 import Itinerary from "./components/Itinerary/Itinerary";
+import MyChoses from "./components/MyChoses/MyChoses"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/my-travel2/:country/:region" element={<MyTravelRegion/>}></Route>
         <Route path="/explore/:country/:city" element={<Explore />}></Route>
         <Route path="/itinerary" element={<Itinerary />}></Route>
+        <Route path="/my-choses" element={<MyChoses />}></Route>
       </Routes>
      <Footer/> 
     </>

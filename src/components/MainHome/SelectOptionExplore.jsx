@@ -1,13 +1,12 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import useFetchData from "../../hooks/useFetchData";
 import {
-  FormBody,
   HomeBtn,
-  LabelHead,
   Option,
   Select,
   SelectContainer,
+  Loading,
+  Error,
 } from "./MainHome.style";
 import GetOptionCities from "./GetOptionCities";
 
@@ -15,7 +14,6 @@ function SelectOptionExplore() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [clicked, setClicked] = useState(false);
-  // const navigate = useNavigate();
 
   let url = null;
 
@@ -25,16 +23,11 @@ function SelectOptionExplore() {
     url = `http://localhost:3001/${selectedCountry}`;
   } else null;
 
-  const { data, error, loading, setData } = useFetchData(
-    url,
-    clicked,
-    setClicked
-  );
+  const { data, error, loading } = useFetchData(url, clicked, setClicked);
 
   const handleDropdownChangeCountry = (e) => {
     setSelectedCountry(e.target.value);
     console.log("selectedCountry", e.target.value);
-    //setData(null);
     setClicked(true);
   };
 
@@ -44,71 +37,65 @@ function SelectOptionExplore() {
   };
 
   const handleSubmit = (e) => {
-    console.log("in submit");
     e.preventDefault();
     setClicked(true);
-
   };
 
   return (
     <>
-      <SelectContainer loc="SelectContainer">
-        <FormBody loc="FormBody" onSubmit={(e) => handleSubmit(e)}>
-          <LabelHead loc="LabelHead">
-            Select country:
-            <Select
-              value={selectedCountry}
-              onChange={handleDropdownChangeCountry}
-              loc="Select"
-            >
-              <Option loc="Option" value="">
-                --Pick a country--
-              </Option>
-              <Option loc="Option" value="italy">
-                Italy
-              </Option>
-              <Option loc="Option" value="france">
-                France
-              </Option>
-              <Option loc="Option" value="romania">
-                Romania
-              </Option>
-              <Option loc="Option" value="spain">
-                Spain
-              </Option>
-            </Select>
-          </LabelHead>
-        
-          <LabelHead loc="LabelHead">
-            Select city:
-            <Select
-              value={selectedCity}
-              onChange={handleDropdownChangeCity}
-              loc="Select"
-            >
-              <Option loc="Option" value="">
-                --Pick a city--
-              </Option>
-              {data &&
-                data.map((item, index) => {
-                  return (
-                    item.city && (
-                      <GetOptionCities key={index} value={item.city} />
-                    )
-                  );
-                })}
-            </Select>
-          </LabelHead>
-          <HomeBtn
-            data={data}
-            to={`/explore/${selectedCountry}/${selectedCity}`}
+      <SelectContainer>
+         <form onSubmit={(e) => handleSubmit(e)}>
+          <Select
+            value={selectedCountry}
+            onChange={handleDropdownChangeCountry}
           >
-            Let's Begin To Travel!
-          </HomeBtn>
-        </FormBody>
-      </SelectContainer>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
+            <Option loc="Option" value="">
+              Pick a country
+            </Option>
+            <Option loc="Option" value="italy">
+              Italy
+            </Option>
+            <Option loc="Option" value="france">
+              France
+            </Option>
+            <Option loc="Option" value="romania">
+              Romania
+            </Option>
+            <Option loc="Option" value="spain">
+              Spain
+            </Option>
+          </Select>
+
+          <Select value={selectedCity} onChange={handleDropdownChangeCity}>
+            <Option loc="Option" value="">
+              Pick a city
+            </Option>
+            {data &&
+              data.map((item, index) => {
+                return (
+                  item.city && <GetOptionCities key={index} value={item.city} />
+                );
+              })}
+          </Select>
+         
+          {selectedCountry && selectedCity && (
+            <HomeBtn
+              data={data}
+              to={`/explore/${selectedCountry}/${selectedCity}`}
+            >
+              Let's Begin To Travel!
+            </HomeBtn>
+          )}
+        </form>
+          </SelectContainer>
+    
+      {loading && <Loading>Loading... Waiting for landing...</Loading>}
+      {error && (
+        <Error>
+          Error: {error.message} Our team is called from the coffe break and
+          will take care of the problem!
+        </Error>
+      )}
       {data && console.log(data)}
     </>
   );

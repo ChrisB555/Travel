@@ -5,8 +5,7 @@ import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
 import {
   Text,
   DataContainer,
-  ImgContainer,
-  TextContainer,
+  
 } from "../MainHome/CitiesRegions/CitiesRegions.style";
 import {
   PageContainerTravel,
@@ -14,8 +13,10 @@ import {
   FiltersContainerTravel,
   SelectTravel,
   ButtonPlanTravel,
+  TextContainerTravel,
+  ImgContainerTravel,
+  FiltersTravel
 } from "./MyTravel.style";
-
 
 function MyTravelCity() {
   const { country, city } = useParams();
@@ -28,7 +29,7 @@ function MyTravelCity() {
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
   const compactData = data ? data[0] : null;
-
+  console.log(compactData);
 
   const optionPeriod = ["three days", "five days", "seven days"];
   const optionBuget = ["Low buget", "Medium buget", "High buget"];
@@ -48,17 +49,30 @@ function MyTravelCity() {
     setBuget(buget);
     setShow(!show);
   };
+  const reset = () => {
+    setPeriod("Choose a period:");
+    setBuget("Choose a buget:");
+  };
 
   return (
     <>
       <PageContainerTravel>
-
         {loading && <div>Loading...</div>}
         {error && <div>Error: {error.message}</div>}
         {data && (
           <>
-            <FiltersContainerTravel>
+            <MainContainerTravel>
+              <Text>City: {compactData.city}</Text>
+              <DataContainer>
+                <ImgContainerTravel src={compactData.image} />
+                <TextContainerTravel>
+                  {compactData.description}
+                </TextContainerTravel>
+              </DataContainer>
+            </MainContainerTravel>
 
+            <FiltersContainerTravel>
+              <FiltersTravel>
               <SelectTravel onChange={onOptionChangePeriod}>
                 <option>Choose a period:</option>
                 {optionPeriod.map((option, index) => {
@@ -72,26 +86,22 @@ function MyTravelCity() {
                   return <option key={index}>{option}</option>;
                 })}
               </SelectTravel>
-
+              </FiltersTravel>
+              <FiltersTravel>
               <ButtonPlanTravel onClick={handleClick}>
                 {show ? "Return" : "Search"}
               </ButtonPlanTravel>
+              </FiltersTravel>
               {show ? (
-                <MyTravelRecommend bugetTravel={buget} periodTravel={period} data={data} />
+                <MyTravelRecommend
+                  bugetTravel={buget}
+                  periodTravel={period}
+                  data={data}
+                />
               ) : null}
 
+
             </FiltersContainerTravel>
-
-            <MainContainerTravel>
-
-              <Text>City: {compactData.city}</Text>
-              <DataContainer>
-                <ImgContainer src={compactData.image} />
-                <TextContainer>{compactData.description}</TextContainer>
-              </DataContainer>
-
-            </MainContainerTravel>
-         
           </>
         )}
       </PageContainerTravel>

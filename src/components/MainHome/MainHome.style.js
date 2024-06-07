@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DARK_BLUE, ORANGE, WHITE_NEUTRAL } from "../../constants/Colors";
+import { DARK_BLUE, ORANGE, WHITE_NEUTRAL,YELLOW,RED } from "../../constants/Colors";
 
 export const MainContainer = styled.div`
   display: grid;
@@ -54,9 +54,9 @@ export const Buttons = styled.button`
     border: solid 2px white;
   }
   @media screen and (max-width: 820px) {
-    margin-top: 20px;
+    margin-top: 40px;
     width: 70%;
-    height: 25px;
+    height: 35px;
   }
 `;
 
@@ -68,15 +68,28 @@ export const SelectContainer = styled.div`
   position: absolute;
   border-radius: 8px;
   margin: 30px auto;
+
 `;
 export const Select = styled.select`
-  width: 65%;
+  width: 200px;
   height: 35px;
   border-radius: 8px;
-  margin: 0 auto;
+  margin: 30px auto;
   text-align: center;
   font-weight: 700;
   font-size: 18px;
+  transition: 0.3s ease;
+  &:focus {
+    background: ${DARK_BLUE};
+    color: ${WHITE_NEUTRAL};
+    border: solid 2px white;
+  
+  }
+  @media screen and (max-width: 820px) {
+    margin-top: 20px;
+    width: 90%;
+    height: 35px;
+  }
 `;
 export const SelectPlan = styled.select`
   width: 300px;
@@ -86,6 +99,18 @@ export const SelectPlan = styled.select`
   text-align: center;
   font-weight: 700;
   font-size: 18px;
+  transition: 0.3s ease;
+  &:focus {
+    background: ${DARK_BLUE};
+    color: ${WHITE_NEUTRAL};
+    border: solid 2px white;
+  
+  }
+  @media screen and (max-width: 820px) {
+    margin-top: 20px;
+    width: 90%;
+    height: 35px;
+  }
 `;
 
 export const Option = styled.option`
@@ -99,28 +124,37 @@ export const HomeBtn = styled(Link)`
   font-weight: 700;
   font-size: 20px;
   color: ${ORANGE};
-  margin:  20px auto;
+  margin:  40px auto;
   cursor: pointer;
   border-radius: 5px;
+ 
   &:hover {
     background: ${DARK_BLUE};
     color: ${WHITE_NEUTRAL};
     border: solid 2px white;
+   
   }
   @media screen and (max-width: 820px) {
     margin-top: 20px;
     width: 70%;
-    height: 25px;
+   height: 30px;
   }
 `;
-export const FormBody = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
+
 export const LabelHead = styled.label`
   color: ${WHITE_NEUTRAL};
   font-weight: 700;
   font-size: 20px;
   height: auto;
   margin: 10px 0 10px 0;
+`;
+
+export const Loading = styled.div`
+  color: ${YELLOW};
+  align-self: center;
+`;
+
+export const Error = styled.div`
+  color: ${RED};
+  align-self: center;
 `;

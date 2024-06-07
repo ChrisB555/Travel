@@ -1,10 +1,21 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetchData from "../../hooks/useFetchData";
+import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
 import {
-  SelectTravel,
+  Text,
+  DataContainer,
+  ImgContainer,
+} from "../MainHome/CitiesRegions/CitiesRegions.style";
+import {
+  PageContainerTravel,
+  MainContainerTravel,
   FiltersContainerTravel,
-  ButtonPlanTravel
+  SelectTravel,
+  ButtonPlanTravel,
+  TextContainerTravel,
+  FiltersTravel,
+  ImgContainerTravel
 } from "../MyTravelCity/MyTravel.style";
 
 function MyTravelRegion() {
@@ -12,15 +23,17 @@ function MyTravelRegion() {
   const [clicked, setClicked] = useState(true);
   const [period, setPeriod] = useState("");
   const [buget, setBuget] = useState("");
+  const [show, setShow] = useState(false);
 
   const url = country
-    ? `http://localhost:3001/${country}/?region=${region}`: null;
+    ? `http://localhost:3001/${country}/?region=${region}`
+    : null;
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
+  const compactData = data ? data[0] : null;
+  console.log(compactData);
 
-  console.log("mytravel", data, region, country);
-
-  const optionPeriod = ["3 days", "5 days", "7 days"];
+  const optionPeriod = ["three days", "five days", "seven days"];
   const optionBuget = ["Low buget", "Medium buget", "High buget"];
 
   const onOptionChangePeriod = (e) => {
@@ -33,34 +46,62 @@ function MyTravelRegion() {
     setClicked(true);
   };
 
-  return (
-   
-    <>
-     {loading && <div>Loading...</div>}
-     {error && <div>Error: {error.message}</div>}
-  
-      <FiltersContainerTravel>
-        <SelectTravel onChange={onOptionChangePeriod}>
-          <option>Choose a period:</option>
-          {optionPeriod.map((option, index) => {
-            return <option key={index}>{option}</option>;
-          })}
-        </SelectTravel>
+  const handleClick = () => {
+    setPeriod(period);
+    setBuget(buget);
+    setShow(!show);
+  };
 
-        <SelectTravel onChange={onOptionChangeBuget}>
-          <option>Choose a buget:</option>
-          {optionBuget.map((option, index) => {
-            return <option key={index}>{option}</option>;
-          })}
-        </SelectTravel>
-        <ButtonPlanTravel
-            
-            
-            >
-              Search
-            </ButtonPlanTravel>
-      </FiltersContainerTravel>
-      
+  return (
+    <>
+      <PageContainerTravel>
+        {loading && <div>Loading...</div>}
+        {error && <div>Error: {error.message}</div>}
+        {data && (
+          <>
+            <MainContainerTravel>
+              <Text>Region: {compactData.region}</Text>
+              <DataContainer>
+                <ImgContainerTravel src={compactData.image} />
+                <TextContainerTravel>
+                  {compactData.description}
+                </TextContainerTravel>
+              </DataContainer>
+            </MainContainerTravel>
+
+            <FiltersContainerTravel>
+              <FiltersTravel>
+              <SelectTravel onChange={onOptionChangePeriod}>
+                <option>Choose a period:</option>
+                {optionPeriod.map((option, index) => {
+                  return <option key={index}>{option}</option>;
+                })}
+              </SelectTravel>
+
+              <SelectTravel onChange={onOptionChangeBuget}>
+                <option>Choose a buget:</option>
+                {optionBuget.map((option, index) => {
+                  return <option key={index}>{option}</option>;
+                })}
+              </SelectTravel>
+              </FiltersTravel>
+              <FiltersTravel>
+              <ButtonPlanTravel onClick={handleClick}>
+                {show ? "Return" : "Search"}
+              </ButtonPlanTravel>
+              </FiltersTravel>
+              {show ? (
+                <MyTravelRecommend
+                  bugetTravel={buget}
+                  periodTravel={period}
+                  data={data}
+                />
+              ) : null}
+             
+            </FiltersContainerTravel>
+          </>
+        )}
+      </PageContainerTravel>
     </>
   );
 }

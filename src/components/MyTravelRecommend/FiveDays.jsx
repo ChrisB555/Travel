@@ -12,35 +12,35 @@ import {
             <MainContainerRecommend>
               
               <DataContainerRecommend>
-              <TextRecommend> day1:</TextRecommend>
+              <TextRecommend> day one:</TextRecommend>
               <TextContainerRecommend>
                 {period.fivedays.dayone}
               </TextContainerRecommend>
               </DataContainerRecommend>
       
               <DataContainerRecommend>
-              <TextRecommend>day2:</TextRecommend>
+              <TextRecommend>day two:</TextRecommend>
               <TextContainerRecommend>
                 {period.fivedays.daytwo}
               </TextContainerRecommend>
               </DataContainerRecommend>
       
               <DataContainerRecommend>
-              <TextRecommend>day3:</TextRecommend>
+              <TextRecommend>day three:</TextRecommend>
               <TextContainerRecommend>
                 {period.fivedays.daythree}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day4:</TextRecommend>
+              <TextRecommend>day four:</TextRecommend>
               <TextContainerRecommend>
                 {period.fivedays.dayfour}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day5:</TextRecommend>
+              <TextRecommend>day five:</TextRecommend>
               <TextContainerRecommend>
                 {period.fivedays.dayfive}
               </TextContainerRecommend>

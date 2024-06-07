@@ -25,6 +25,7 @@ export const MainContainer = styled.div`
   flex-direction: column;
   width: 90%;
   margin: 0 auto;
+ 
 `;
 
 export const Text = styled.h4`
@@ -37,10 +38,16 @@ export const DataContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   border: none;
+  @media screen and (max-width: 820px) {
+    flex-direction: column;
+  }
 `;
 export const ImgContainer = styled.img`
   width: 200px;
   height: 200px;
+  @media screen and (max-width: 820px) {
+   margin:10px auto;
+  }
 `;
 export const TextContainer = styled.p`
   margin: 50px;
@@ -73,7 +80,7 @@ export const ButtonPlan = styled(Link)`
 
 
 export const SelectCity = styled.select`
-  width: 45%;
+  width: 75%;
   height: 35px;
   border-radius: 8px;
   margin: 70px auto;
@@ -89,7 +96,7 @@ export const SelectCity = styled.select`
 `;
 
 export const SelectRegion = styled.select`
-  width: 45%;
+  width: 75%;
   height: 35px;
   border-radius: 8px;
   margin: 70px auto;

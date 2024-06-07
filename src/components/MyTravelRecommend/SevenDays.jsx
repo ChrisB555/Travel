@@ -12,49 +12,49 @@ import {
             <MainContainerRecommend>
               
               <DataContainerRecommend>
-              <TextRecommend> day1:</TextRecommend>
+              <TextRecommend> day one:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.dayone}
               </TextContainerRecommend>
               </DataContainerRecommend>
       
               <DataContainerRecommend>
-              <TextRecommend>day2:</TextRecommend>
+              <TextRecommend>day two:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.daytwo}
               </TextContainerRecommend>
               </DataContainerRecommend>
       
               <DataContainerRecommend>
-              <TextRecommend>day3:</TextRecommend>
+              <TextRecommend>day three:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.daythree}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day4:</TextRecommend>
+              <TextRecommend>day four:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.dayfour}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day5:</TextRecommend>
+              <TextRecommend>day five:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.dayfive}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day6:</TextRecommend>
+              <TextRecommend>day six:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.daysix}
               </TextContainerRecommend>
               </DataContainerRecommend>
 
               <DataContainerRecommend>
-              <TextRecommend>day7:</TextRecommend>
+              <TextRecommend>day seven:</TextRecommend>
               <TextContainerRecommend>
                 {period.sevendays.dayseven}
               </TextContainerRecommend>

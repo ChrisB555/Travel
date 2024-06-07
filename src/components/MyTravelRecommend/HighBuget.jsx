@@ -1,41 +1,38 @@
 import {
-    MainContainerRecommend,
-    TextContainerRecommend,
-    TextRecommend,
-    DataContainerRecommend
-  } from "../MyTravelRecommend/MyTravelRecommend.style";
+  MainContainerRecommend,
+  TextContainerRecommend,
+  TextRecommend,
+  DataContainerRecommend,
+} from "../MyTravelRecommend/MyTravelRecommend.style";
 
-    function HighBuget ({buget}){
-
-        return(
-            <>
-            <MainContainerRecommend>
-        
+function HighBuget({ buget }) {
+  return (
+    <>
+      <MainContainerRecommend>
+        <TextRecommend>We can recommend you some hotels:</TextRecommend>
         <DataContainerRecommend>
-        <TextRecommend> Hotel:</TextRecommend>
-        <TextContainerRecommend>
-          {buget.highBuget.hotelone}
-        </TextContainerRecommend>
+          <TextRecommend> Hotel:</TextRecommend>
+          <TextContainerRecommend>
+            {buget.highBuget.hotelone}
+          </TextContainerRecommend>
         </DataContainerRecommend>
 
         <DataContainerRecommend>
-        <TextRecommend>Hotel:</TextRecommend>
-        <TextContainerRecommend>
-        {buget.highBuget.hoteltwo}
-        </TextContainerRecommend>
+          <TextRecommend>Hotel:</TextRecommend>
+          <TextContainerRecommend>
+            {buget.highBuget.hoteltwo}
+          </TextContainerRecommend>
         </DataContainerRecommend>
 
         <DataContainerRecommend>
-        <TextRecommend>Hotel:</TextRecommend>
-        <TextContainerRecommend>
-        {buget.highBuget.hotelthree}
-        </TextContainerRecommend>
+          <TextRecommend>Hotel:</TextRecommend>
+          <TextContainerRecommend>
+            {buget.highBuget.hotelthree}
+          </TextContainerRecommend>
         </DataContainerRecommend>
-
       </MainContainerRecommend>
-            </>
-        )
+    </>
+  );
+}
 
-    };
-
-    export default HighBuget;
+export default HighBuget;
