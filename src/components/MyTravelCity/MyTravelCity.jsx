@@ -5,7 +5,6 @@ import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
 import {
   Text,
   DataContainer,
-  
 } from "../MainHome/CitiesRegions/CitiesRegions.style";
 import {
   PageContainerTravel,
@@ -15,8 +14,13 @@ import {
   ButtonPlanTravel,
   TextContainerTravel,
   ImgContainerTravel,
-  FiltersTravel
+  FiltersTravel,
+  ButtonChoice,
 } from "./MyTravel.style";
+import { ChoiceContext } from "../../Store/context";
+import { useContext } from "react";
+import { addChoice } from "../../Store/actions";
+import Spinner from "react-bootstrap/Spinner";
 
 function MyTravelCity() {
   const { country, city } = useParams();
@@ -29,7 +33,6 @@ function MyTravelCity() {
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
   const compactData = data ? data[0] : null;
-  console.log(compactData);
 
   const optionPeriod = ["three days", "five days", "seven days"];
   const optionBuget = ["Low buget", "Medium buget", "High buget"];
@@ -49,15 +52,20 @@ function MyTravelCity() {
     setBuget(buget);
     setShow(!show);
   };
-  const reset = () => {
-    setPeriod("Choose a period:");
-    setBuget("Choose a buget:");
+
+  const { dispatchChoice } = useContext(ChoiceContext);
+  const handleAdd = (country, city, buget, period, data) => {
+    dispatchChoice(addChoice({ country, city, buget, period, data }));
   };
 
   return (
     <>
       <PageContainerTravel>
-        {loading && <div>Loading...</div>}
+        {loading && (
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        )}
         {error && <div>Error: {error.message}</div>}
         {data && (
           <>
@@ -73,24 +81,25 @@ function MyTravelCity() {
 
             <FiltersContainerTravel>
               <FiltersTravel>
-              <SelectTravel onChange={onOptionChangePeriod}>
-                <option>Choose a period:</option>
-                {optionPeriod.map((option, index) => {
-                  return <option key={index}>{option}</option>;
-                })}
-              </SelectTravel>
+                <SelectTravel onChange={onOptionChangePeriod}>
+                  <option>Choose a period:</option>
+                  {optionPeriod.map((option, index) => {
+                    return <option key={index}>{option}</option>;
+                  })}
+                </SelectTravel>
 
-              <SelectTravel onChange={onOptionChangeBuget}>
-                <option>Choose a buget:</option>
-                {optionBuget.map((option, index) => {
-                  return <option key={index}>{option}</option>;
-                })}
-              </SelectTravel>
+                <SelectTravel onChange={onOptionChangeBuget}>
+                  <option>Choose a buget:</option>
+                  {optionBuget.map((option, index) => {
+                    return <option key={index}>{option}</option>;
+                  })}
+                </SelectTravel>
               </FiltersTravel>
+
               <FiltersTravel>
-              <ButtonPlanTravel onClick={handleClick}>
-                {show ? "Return" : "Search"}
-              </ButtonPlanTravel>
+                <ButtonPlanTravel onClick={handleClick}>
+                  {show ? "Return" : "Search"}
+                </ButtonPlanTravel>
               </FiltersTravel>
               {show ? (
                 <MyTravelRecommend
@@ -99,11 +108,17 @@ function MyTravelCity() {
                   data={data}
                 />
               ) : null}
-
-
             </FiltersContainerTravel>
           </>
         )}
+        {show ? (
+          <ButtonChoice
+            to={`/my-choices`}
+            onClick={() => handleAdd(country, city, buget, period, data)}
+          >
+            Save my Choice
+          </ButtonChoice>
+        ) : null}
       </PageContainerTravel>
     </>
   );

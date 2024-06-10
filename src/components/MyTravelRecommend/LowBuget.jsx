@@ -6,6 +6,7 @@ import {
 } from "../MyTravelRecommend/MyTravelRecommend.style";
 
 function LowBuget({ buget }) {
+
   return (
     <>
       <MainContainerRecommend>

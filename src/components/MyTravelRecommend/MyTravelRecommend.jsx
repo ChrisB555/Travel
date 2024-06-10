@@ -9,6 +9,8 @@ import LowBuget from "./LowBuget";
 import MediumBuget from "./MediumBuget";
 import HighBuget from "./HighBuget";
 
+
+
 function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
 
   const bugetData = data[0].buget;
@@ -20,6 +22,7 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
 
   const keyBuget = Object.keys(bugetData);
   const keyPeriod = Object.keys(periodData);
+  
 
   const equalBugetLow =
     bugetTravelNoSpace == keyBuget[0].toLowerCase() ? true : false;
@@ -44,6 +47,7 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
               {equalPeriodThree
                 ? data.map((e, index) => (
                     <ThreeDays key={index}  {...e} />
+                   
                   ))
                 : null}
               {equalPeriodFive
@@ -77,6 +81,7 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
            </DataContainerRecommend>
           </>
         )}
+        
       </MainContainerRecommend>
     </>
   );

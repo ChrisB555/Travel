@@ -10,11 +10,26 @@ import Explore from "./components/Explore/Explore";
 import MyTravelCity from "./components/MyTravelCity/MyTravelCity";
 import MyTravelRegion from "./components/MyTravelRegion/MyTravelRegion";
 import Itinerary from "./components/Itinerary/Itinerary";
-import MyChoses from "./components/MyChoses/MyChoses"
+import MyChoices from "./components/MyChoices/MyChoices";
+import { useReducer } from "react";
+import {ChoiceContext} from "./Store/context";
+import {initialStateChoice,choiceReducer} from "./Store/reducer"
 
 function App() {
+
+  const [stateGlobalChoice, dispatchChoice] = useReducer(
+    choiceReducer,
+    initialStateChoice
+  );
+
+
+  const choiceContextValue = {
+    stateGlobalChoice,
+    dispatchChoice,
+  };
+
   return (
-    <>
+  <ChoiceContext.Provider value={choiceContextValue}>
     <NavBar/>
     <Routes>
      
@@ -27,10 +42,10 @@ function App() {
         <Route path="/my-travel2/:country/:region" element={<MyTravelRegion/>}></Route>
         <Route path="/explore/:country/:city" element={<Explore />}></Route>
         <Route path="/itinerary" element={<Itinerary />}></Route>
-        <Route path="/my-choses" element={<MyChoses />}></Route>
+        <Route path="/my-choices" element={<MyChoices />}></Route>
       </Routes>
      <Footer/> 
-    </>
+     </ChoiceContext.Provider>
   )
 }
 

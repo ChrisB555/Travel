@@ -15,6 +15,7 @@ import {
 } from "./CitiesRegions.style";
 
 import GetOptionCities from "../GetOptionCities";
+import Spinner from "react-bootstrap/Spinner";
 
 function CitiesRegions() {
   const { country } = useParams();
@@ -47,7 +48,11 @@ function CitiesRegions() {
   return (
     <>
       <PageContainer>
-        {loading && <div>Loading...</div>}
+        {loading && (
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        )}
         {error && <div>Error: {error.message}</div>}
         {data && (
           <>
