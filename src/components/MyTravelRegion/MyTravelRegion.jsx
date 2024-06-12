@@ -119,7 +119,7 @@ function MyTravelRegion() {
 
         {show ? (
           <ButtonChoice
-            to={`/my-choices`}
+            to={`/my-choices/id`}
             onClick={() => handleAdd(country, region, buget, period, data)}
           >
             Save my Choice

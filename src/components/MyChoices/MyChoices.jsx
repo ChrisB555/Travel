@@ -1,4 +1,8 @@
 import { useContext } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useFetchUsers from "../../hooks/useFetchUsers";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { ChoiceContext } from "../../Store/context";
 import {
   ButtonPlanTravel,
@@ -8,13 +12,23 @@ import { removeChoice } from "../../Store/actions";
 import MyChoicesBox from "./MyChoicesBox";
 
 function MyChoices() {
+  const { id } = useParams();
+
   const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
 
-  const handleDelete = (country, city, buget, period,data) => {
-    dispatchChoice(removeChoice(country, city, buget, period,data));
+
+  const handleDelete = (index) => {
+    dispatchChoice(removeChoice(index));
   };
 
   console.log(stateGlobalChoice.choiceValue );
+
+  const { users: user, error, loading } = useFetchUsers("/" + id);
+  const { isLocalDataEmpty, localData, handleLocalData, resetLocalData } =
+  useLocalStorage("users");
+  console.log(user);
+
+ 
 
   return (
     <>
@@ -28,7 +42,7 @@ function MyChoices() {
             period={e.period}
             buget={e.buget}
             data={e.data}
-            handleDelete={handleDelete}
+            handleDelete={() => handleDelete(index)}
           />          
         ))}
       </MainContainerChoice>

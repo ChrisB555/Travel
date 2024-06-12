@@ -7,6 +7,7 @@ export const PageContainerTravel = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   border: 2px solid ${WHITE_NEUTRAL};
+  margin-top:50px;
   @media screen and (max-width: 820px) {
     flex-direction: column;
   }

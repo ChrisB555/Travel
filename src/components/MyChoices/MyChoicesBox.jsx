@@ -13,6 +13,7 @@ import MediumBuget from "../MyTravelRecommend/MediumBuget";
 import HighBuget from "../MyTravelRecommend/HighBuget";
 
 function MyChoicesBox({ country, city, region, buget, period, data,handleDelete }) {
+  console.log("databox",data)
   const bugetTravelNoSpace = buget.replace(/ /g, "").toLowerCase();
   const periodTravelNoSpace = period.replace(/ /g, "").toLowerCase();
 

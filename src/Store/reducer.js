@@ -3,7 +3,7 @@ export const initialStateChoice = {
   };
   
   export function choiceReducer(state, action) {
-    console.log(state, action);
+   
    
     switch (action.type) {
       case "ADD_CHOICE": {
@@ -13,9 +13,9 @@ export const initialStateChoice = {
       case "REMOVE_CHOICE": {
         let newState = {
           ...state,
-          choiceValue: state.choiceValue .filter( el =>  el === action.payload)
+          choiceValue: state.choiceValue .filter((e,index) =>  index !== action.payload)
         };
-        console.log("newState=", newState);
+       
   
         return newState;
       }

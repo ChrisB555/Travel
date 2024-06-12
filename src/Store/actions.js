@@ -5,10 +5,10 @@ export function addChoice({country,city,region,buget,period,data}) {
     };
   }
   
-  export function removeChoice({country,city,region,buget,period,data}) {
+  export function removeChoice(index) {
     return {
       type: "REMOVE_CHOICE",
-      payload:{country,city,region,buget,period,data} ,
+      payload:index ,
     };
   }
   

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import useFetchData from "../../hooks/useFetchData";
+import useFetchUsers from "../../hooks/useFetchUsers";
 import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
 import {
   Text,
@@ -24,6 +26,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 function MyTravelCity() {
   const { country, city } = useParams();
+  const { id } = useParams();
   const [clicked, setClicked] = useState(true);
   const [period, setPeriod] = useState("");
   const [buget, setBuget] = useState("");
@@ -52,11 +55,58 @@ function MyTravelCity() {
     setBuget(buget);
     setShow(!show);
   };
+  const { users: user } = useFetchUsers("/" + id);
+  console.log("user",user);
 
-  const { dispatchChoice } = useContext(ChoiceContext);
-  const handleAdd = (country, city, buget, period, data) => {
-    dispatchChoice(addChoice({ country, city, buget, period, data }));
+  const handleUpdateChoice = () => {
+    console.log("Text", stateGlobalChoice.choiceValue);
+    fetch(`http://localhost:3001/users`, {
+      method: "PUT",
+      body: JSON.stringify(stateGlobalChoice),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
   };
+
+  const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
+ 
+  const handleAdd = (country, city, buget, period, data) => {
+    const updateDataChoice = {country, city, buget, period, data}
+    dispatchChoice(addChoice(updateDataChoice));
+    handleUpdateChoice(updateDataChoice);
+  };
+
+ 
+  // const handleSubmit = async () => {
+  //   console.log(inputObj);
+  //   const add = await fetch(`http://localhost:3001/users`, {
+  //     method: "POST",
+  //     body: JSON.stringify(inputObj),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const response = await add.json();
+  //   return response[0].id;
+  // };
+
+  //const { handleLocalData, resetLocalData, isLocalDataEmpty, localData } =
+   // useLocalStorage("choices");
+
+  // console.log("local",stateGlobalChoice);
+
+  // const globalLocalStorage = stateGlobalChoice.choiceValue;
+
+  // const addNewChoice = () => {
+    
+  //   const existingData = !isLocalDataEmpty ? localData : [];
+  //   const updatedData = [...existingData, ...globalLocalStorage];
+  //   handleLocalData("choices", updatedData);
+    
+  // };
 
   return (
     <>
@@ -113,8 +163,12 @@ function MyTravelCity() {
         )}
         {show ? (
           <ButtonChoice
-            to={`/my-choices`}
-            onClick={() => handleAdd(country, city, buget, period, data)}
+            to={`/my-choices/${id}`}
+            onClick={() => {
+              handleAdd(country, city, buget, period, data);
+              /*  addNewChoice();*/
+         
+            }}
           >
             Save my Choice
           </ButtonChoice>

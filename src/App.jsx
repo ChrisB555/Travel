@@ -11,6 +11,7 @@ import MyTravelCity from "./components/MyTravelCity/MyTravelCity";
 import MyTravelRegion from "./components/MyTravelRegion/MyTravelRegion";
 import Itinerary from "./components/Itinerary/Itinerary";
 import MyChoices from "./components/MyChoices/MyChoices";
+import Users from "./components/Users/Users";
 import { useReducer } from "react";
 import {ChoiceContext} from "./Store/context";
 import {initialStateChoice,choiceReducer} from "./Store/reducer"
@@ -37,12 +38,13 @@ function App() {
         <Route path="/home" element={<Home />}></Route>
         <Route path="/about" element={< About/>}></Route>
         <Route path="/city-region/:country/" element={<CitiesRegions/>}></Route>
-        <Route path="/contact" element={<Contact/>}></Route>
+        <Route path="/contact/:id" element={<Contact/>}></Route>
         <Route path="/my-travel1/:country/:city" element={<MyTravelCity/>}></Route>
         <Route path="/my-travel2/:country/:region" element={<MyTravelRegion/>}></Route>
         <Route path="/explore/:country/:city" element={<Explore />}></Route>
+        <Route path="/users/:id" element={<Users />} />
         <Route path="/itinerary" element={<Itinerary />}></Route>
-        <Route path="/my-choices" element={<MyChoices />}></Route>
+        <Route path="/my-choices/:id" element={<MyChoices />}></Route>
       </Routes>
      <Footer/> 
      </ChoiceContext.Provider>

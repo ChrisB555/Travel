@@ -30,10 +30,9 @@ export const LinkNavStyle = styled(Link)`
   padding: 8px ;
   margin:10px ;
   border-radius:4px;
+  position:relative;
   &:hover {
-    background:  ${WHITE_NEUTRAL};
-    color:  ${DARK_BLUE};
-    border-radius: 0;
+   color:  ${WHITE_NEUTRAL};
   }
   @media screen and (max-width: 820px) {
     color: ${DARK_BLUE};
@@ -91,4 +90,28 @@ export const ButtonDropdown = styled.button`
   @media screen and (max-width: 820px) {
     display: block;
   }
+`;
+
+export const ChoiceDropdownContainer = styled.div`
+  
+  width: 100%;
+  position:relative;
+`;
+
+export const ChoiceDropdown = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100px;
+  top: 40px;
+  right:0;
+  border: 2px solid ${WHITE_NEUTRAL};
+  transition: all linear 0.3s;
+ 
+`;
+export const ChoiceMenuContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  width: 100%;
+  font-size:16px;
 `;
