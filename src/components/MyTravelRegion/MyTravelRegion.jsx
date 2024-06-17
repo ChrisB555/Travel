@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import useFetchData from "../../hooks/useFetchData";
+import useFetchUsers from "../../hooks/useFetchUsers";
 import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
+import { ChoiceContext } from "../../Store/context";
+import { addChoice } from "../../Store/actions";
+import Spinner from "react-bootstrap/Spinner";
 import {
   Text,
   DataContainer,
@@ -19,13 +23,10 @@ import {
   ButtonChoice,
 } from "../MyTravelCity/MyTravel.style";
 
-import { ChoiceContext } from "../../Store/context";
-import { useContext } from "react";
-import { addChoice } from "../../Store/actions";
-import Spinner from "react-bootstrap/Spinner";
+
 
 function MyTravelRegion() {
-  const { country, region } = useParams();
+  const { country, region, id } = useParams();
   const [clicked, setClicked] = useState(true);
   const [period, setPeriod] = useState("");
   const [buget, setBuget] = useState("");
@@ -57,9 +58,45 @@ function MyTravelRegion() {
     setShow(!show);
   };
 
-  const { dispatchChoice } = useContext(ChoiceContext);
+  const { users: user } = useFetchUsers("/" + id);
+  console.log("user", user);
+
+  const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
+  console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
+
+  const handleUpdateChoice = (updateDataChoice) => {
+    console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
+    console.log("stateGlobalChoice", stateGlobalChoice);
+    console.log("updateDataChoice", updateDataChoice);
+    fetch(`http://localhost:3001/users/${id}`)
+      .then((response) => response.json())
+      .then((userData) => {
+        // Check if the user has a 'choices' array, if not, initialize it
+        const updatedChoices = userData.choices
+          ? [...userData.choices, updateDataChoice]
+          : [updateDataChoice];
+        // Update the user data with the new choice
+        const updatedUserData = { ...userData, choices: updatedChoices };
+
+        fetch(`http://localhost:3001/users/${id}`, {
+          method: "PUT",
+          body: JSON.stringify(updatedUserData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json));
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  };
+
   const handleAdd = (country, region, buget, period, data) => {
-    dispatchChoice(addChoice({ country, region, buget, period, data }));
+    const updateDataChoice = { country, region, buget, period, data };
+
+    dispatchChoice(addChoice(updateDataChoice));
+    console.log("updateDataChoice", updateDataChoice);
+    handleUpdateChoice(updateDataChoice);
   };
 
   return (
@@ -119,7 +156,7 @@ function MyTravelRegion() {
 
         {show ? (
           <ButtonChoice
-            to={`/my-choices/id`}
+            to={`/my-choices/${id}`}
             onClick={() => handleAdd(country, region, buget, period, data)}
           >
             Save my Choice

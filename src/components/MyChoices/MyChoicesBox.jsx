@@ -1,9 +1,14 @@
+import { useContext, useState } from "react";
+import { ChoiceContext } from "../../Store/context";
+import { removeChoice } from "../../Store/actions";
+import { Button, Modal } from "react-bootstrap";
 import {
   TextChoice,
   MainContainerChoice,
   DataContainerChoice,
   TextOrangeChoice,
-  ButtonPlanTravel,PageContainerTravel
+  ButtonPlanTravel,
+  PageContainerTravel,
 } from "../MyTravelCity/MyTravel.style";
 import ThreeDays from "../MyTravelRecommend/ThreeDays";
 import FiveDays from "../MyTravelRecommend/FiveDays";
@@ -12,8 +17,14 @@ import LowBuget from "../MyTravelRecommend/LowBuget";
 import MediumBuget from "../MyTravelRecommend/MediumBuget";
 import HighBuget from "../MyTravelRecommend/HighBuget";
 
-function MyChoicesBox({ country, city, region, buget, period, data,handleDelete }) {
-  console.log("databox",data)
+function MyChoicesBox({ country, city, region, buget, period, data, index }) {
+
+
+  const [show, setShow] = useState(false);
+  const {  dispatchChoice } = useContext(ChoiceContext);
+  
+ 
+
   const bugetTravelNoSpace = buget.replace(/ /g, "").toLowerCase();
   const periodTravelNoSpace = period.replace(/ /g, "").toLowerCase();
 
@@ -34,8 +45,40 @@ function MyChoicesBox({ country, city, region, buget, period, data,handleDelete 
   const equalPeriodSeven =
     periodTravelNoSpace == keyPeriod[2].toLowerCase() ? true : false;
 
+  const handleDelete = (index) => {
+    dispatchChoice(removeChoice(index));
+    setShow(false);
+  };
+
+  const handleCloseShow = () => {
+    setShow(!show);
+  };
   return (
     <>
+      <>
+        <Modal show={show} >
+          <Modal.Header closeButton>
+            <Modal.Title>Delete</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {city ? (
+              <p>Are you sure you want to DELETE "{city}" </p>
+            ) : (
+              <p>Are you sure you want to DELETE "{region}" </p>
+            )}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="danger" onClick={() => handleDelete(index)}>
+              YES
+            </Button>
+            <Button variant="secondary" onClick={() => handleCloseShow()}>
+              NO
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
       <PageContainerTravel>
         <DataContainerChoice>
           <TextOrangeChoice> Country:</TextOrangeChoice>
@@ -90,7 +133,8 @@ function MyChoicesBox({ country, city, region, buget, period, data,handleDelete 
               : null}
           </MainContainerChoice>
         ) : null}
-        <ButtonPlanTravel onClick={handleDelete}>
+
+        <ButtonPlanTravel onClick={() => handleCloseShow(index)}>
           Delete my choice
         </ButtonPlanTravel>
       </PageContainerTravel>

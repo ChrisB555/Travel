@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import useLocalStorage from "../../hooks/useLocalStorage";
+//import useLocalStorage from "../../hooks/useLocalStorage";
 import useFetchData from "../../hooks/useFetchData";
 import useFetchUsers from "../../hooks/useFetchUsers";
 import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
@@ -20,13 +20,11 @@ import {
   ButtonChoice,
 } from "./MyTravel.style";
 import { ChoiceContext } from "../../Store/context";
-import { useContext } from "react";
 import { addChoice } from "../../Store/actions";
 import Spinner from "react-bootstrap/Spinner";
 
 function MyTravelCity() {
-  const { country, city } = useParams();
-  const { id } = useParams();
+  const { country, city, id } = useParams();
   const [clicked, setClicked] = useState(true);
   const [period, setPeriod] = useState("");
   const [buget, setBuget] = useState("");
@@ -58,55 +56,46 @@ function MyTravelCity() {
   const { users: user } = useFetchUsers("/" + id);
   console.log("user",user);
 
-  const handleUpdateChoice = () => {
-    console.log("Text", stateGlobalChoice.choiceValue);
-    fetch(`http://localhost:3001/users`, {
-      method: "PUT",
-      body: JSON.stringify(stateGlobalChoice),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-  };
-
   const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
+
+
+  const handleUpdateChoice = (updateDataChoice) => {
+    console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
+    console.log("stateGlobalChoice", stateGlobalChoice);
+    console.log("updateDataChoice", updateDataChoice);
+    fetch(`http://localhost:3001/users/${id}`)
+      .then((response) => response.json())
+      .then((userData) => {
+        // Check if the user has a 'choices' array, if not, initialize it
+        const updatedChoices = userData.choices
+          ? [...userData.choices, updateDataChoice]
+          : [updateDataChoice];
+        // Update the user data with the new choice
+        const updatedUserData = { ...userData, choices: updatedChoices };
+
+        fetch(`http://localhost:3001/users/${id}`, {
+          method: "PUT",
+          body: JSON.stringify(updatedUserData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json));
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  };
+ 
  
   const handleAdd = (country, city, buget, period, data) => {
     const updateDataChoice = {country, city, buget, period, data}
     dispatchChoice(addChoice(updateDataChoice));
+    console.log("updateDataChoice", updateDataChoice);
     handleUpdateChoice(updateDataChoice);
   };
 
  
-  // const handleSubmit = async () => {
-  //   console.log(inputObj);
-  //   const add = await fetch(`http://localhost:3001/users`, {
-  //     method: "POST",
-  //     body: JSON.stringify(inputObj),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const response = await add.json();
-  //   return response[0].id;
-  // };
 
-  //const { handleLocalData, resetLocalData, isLocalDataEmpty, localData } =
-   // useLocalStorage("choices");
-
-  // console.log("local",stateGlobalChoice);
-
-  // const globalLocalStorage = stateGlobalChoice.choiceValue;
-
-  // const addNewChoice = () => {
-    
-  //   const existingData = !isLocalDataEmpty ? localData : [];
-  //   const updatedData = [...existingData, ...globalLocalStorage];
-  //   handleLocalData("choices", updatedData);
-    
-  // };
 
   return (
     <>
@@ -165,9 +154,7 @@ function MyTravelCity() {
           <ButtonChoice
             to={`/my-choices/${id}`}
             onClick={() => {
-              handleAdd(country, city, buget, period, data);
-              /*  addNewChoice();*/
-         
+              handleAdd(country, city, buget, period, data);      
             }}
           >
             Save my Choice

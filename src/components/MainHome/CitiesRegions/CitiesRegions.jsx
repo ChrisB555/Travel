@@ -18,7 +18,8 @@ import GetOptionCities from "../GetOptionCities";
 import Spinner from "react-bootstrap/Spinner";
 
 function CitiesRegions() {
-  const { country } = useParams();
+  const { country, id } = useParams();
+  console.log("country", country, "id", id);
   const [clicked, setClicked] = useState(true);
   const [isCity, setIsCity] = useState(null);
   const [city, setCity] = useState("");
@@ -77,7 +78,7 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectCity>
-                <ButtonPlan to={`/my-travel1/${country}/${city}`}>
+                <ButtonPlan to={`/my-travel1/${country}/${city}/${id}`}>
                   Search
                 </ButtonPlan>
               </FiltersContainer>
@@ -96,7 +97,7 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectRegion>
-                <ButtonPlan to={`/my-travel2/${country}/${region}`}>
+                <ButtonPlan to={`/my-travel2/${country}/${region}/${id}`}>
                   Search
                 </ButtonPlan>
               </FiltersContainer>

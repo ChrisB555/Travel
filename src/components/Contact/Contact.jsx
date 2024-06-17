@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useFetchUsers from "../../hooks/useFetchUsers";
-import useLocalStorage from "../../hooks/useLocalStorage";
+//import { useEffect } from "react";
+//import { useParams } from "react-router-dom";
+//import useFetchUsers from "../../hooks/useFetchUsers";
+//import useLocalStorage from "../../hooks/useLocalStorage";
 import ContactForm from "./ContactForm";
 import ContactFormTextarea from "./ContactFormTextarea";
 import {
@@ -40,7 +40,7 @@ const Contact = () => {
 
   const handleSubmit = async () => {
     console.log(inputObj);
-    const add = await fetch(`http://localhost:3001/users`, {
+    const add = await fetch(`http://localhost:3001/feedback`, {
       method: "POST",
       body: JSON.stringify(inputObj),
       headers: {
@@ -50,7 +50,7 @@ const Contact = () => {
     const response = await add.json();
     return response[0].id;
   };
-
+/*
   const { handleLocalData, resetLocalData } = useLocalStorage("users");
 
   const addNewId = async () => {
@@ -59,7 +59,7 @@ const Contact = () => {
     handleLocalData("users", JSON.stringify(id));
     console.log(id);
     return id;
-  };
+  };*/
 
   const handleError = (value, name) => {
     switch (name) {
@@ -178,7 +178,7 @@ const Contact = () => {
         <ContactButton
         //to={`/users/${id}`}
           onClick={() => {
-            addNewId();
+            handleSubmit();
           }}
         >
           Send Feedback

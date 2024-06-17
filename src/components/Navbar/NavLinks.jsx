@@ -34,7 +34,7 @@ function NavLinks({ href, title }) {
           </Badge>
         ) : null}{" "}
       </LinkNavStyle>
-
+{/*
       <LinkNavStyle
         onMouseEnter={() => onHover()}
         onMouseLeave={() => onHoverOver()}
@@ -54,7 +54,7 @@ function NavLinks({ href, title }) {
               ))
             : null}{" "}
      
-      </LinkNavStyle>
+      </LinkNavStyle>*/}
     </>
   );
 }

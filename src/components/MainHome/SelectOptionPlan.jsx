@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useFetchData from "../../hooks/useFetchData";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { HomeBtn, Option, SelectPlan, SelectContainer } from "./MainHome.style";
 
 
@@ -17,9 +18,11 @@ function SelectOptionPlan() {
     setClicked
   );
 
+  const { localData } = useLocalStorage("user");
+  console.log("localData", localData);
+
   const handleDropdownChangeCountry = (e) => {
     setSelectedCountry(e.target.value);
-
     setClicked(true);
   };
 
@@ -45,7 +48,7 @@ function SelectOptionPlan() {
           </SelectPlan>
 
           {data && (
-            <HomeBtn type="submit" to={`/city-region/${selectedCountry}`}>
+            <HomeBtn type="submit" to={`/city-region/${selectedCountry}/${localData}`}>
               Let's Begin To Travel!
             </HomeBtn>
           )}

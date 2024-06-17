@@ -1,11 +1,18 @@
 {
-  "users": [
+  "Feedback": [
     {
       "Name": "",
       "SurName": "",
       "Mobile": "",
       "Email": "",
       "Textarea": "",
+      "id": 0
+    }
+  ],
+
+  "Users": [
+    {
+      "Email": "",
       "Choices": [],
       "id": 0
     }

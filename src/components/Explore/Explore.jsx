@@ -1,27 +1,43 @@
-import { useState,useEffect } from "react";
-
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import { itineraryPlus } from "../../Store/itinerary/actions";
+import { ItineraryContext } from "../../Store/itinerary/context";
 import useFetchData from "../../hooks/useFetchData";
 import DestinationCard from "../DestinationCard/DestinationCard";
 import { Error, Loading } from "../MainHome/MainHome.style";
 import {
   ButtonCity,
+  ButtonInfo,
   CityDescription,
   ContainerDescriptionBottom,
   ContainerDescriptionTop,
   ContainerTop,
   CountrySubtitle,
   ImageCity,
+  InfoSection,
+  InfoUser,
   SectionCityButtons,
   SectionCityData,
+  SectionInfoButtons,
+  SectionLandmarkData,
   Subtitle,
   Title,
-  SectionLandmarkData,
 } from "./Explore.style";
 
-import useLocalStorage from "../../hooks/useLocalStorage";
-
 const Explore = () => {
+  const { stateGlobalItinerary, dispatchItinerary } =
+    useContext(ItineraryContext);
+
+  console.log(
+    "stateGlobalItinerary",
+    stateGlobalItinerary,
+    "dispatchItinerary",
+    dispatchItinerary
+  );
+
+  const itineraryValueArray = stateGlobalItinerary.itineraryValue || [];
+  console.log("itineraryValueArray", itineraryValueArray);
+
   const { country, city } = useParams();
 
   const [clicked, setClicked] = useState(true);
@@ -45,43 +61,36 @@ const Explore = () => {
   } = useFetchData(urlDestination, clicked, setClicked);
 
   const compactDataCity = dataCity ? dataCity[0] : null;
-
   console.log("compactDataCity", compactDataCity);
+  const [unique, setUnique] = useState(true);
 
-  const { localData, handleLocalData, isLocalDataEmpty } =
-  useLocalStorage("locatie");
-console.log("localData", localData);
+  const handleAddItinerary = (country, city, event) => {
+    // console.log("itineraryValueArray", itineraryValueArray);
+    console.log("HANDLE ADD ITINERARY");
 
-//FUNCTIA DE ADAUGARE LOCALSTORAGE
+    const addObject = { country, city };
 
-const addLocalStorage = (country, city) => {
-  // console.log("value", typeof value, value);
-  console.log("country", country, "city", city);
+    console.log("ADD OBJECT", addObject);
 
-  const existingData = !isLocalDataEmpty ? localData : [];
+    const isDuplicate = itineraryValueArray.some(
+      (element) =>
+        element.country === addObject.country && element.city === addObject.city
+    );
 
-  console.log("existingData raw", typeof existingData, existingData);
-  console.log(
-    "existingData to string",
-    typeof JSON.stringify(existingData),
-    JSON.stringify(existingData)
-  );
-
-  const newLocation = { country, city };
-
-  console.log("newLocation", typeof newLocation, newLocation);
-
-  const updatedData = [...existingData, newLocation];
-
-  console.log("updatedData", typeof updatedData, updatedData);
-
-  handleLocalData("locatie", updatedData);
-};
-
+    if (isDuplicate) {
+      console.log("cannot be added");
+      setUnique(false);
+      event.preventDefault();
+    } else {
+      console.log("can be added");
+      setUnique(true);
+      dispatchItinerary(itineraryPlus({ country, city }));
+    }
+  };
   return (
     <>
-      <SectionCityData >
-        <Title>
+      <SectionCityData loc="SectionCityData">
+        <Title loc="Title">
           Feel free to explore our offers regarding your selection:
         </Title>
         {loadingCity && (
@@ -89,24 +98,27 @@ const addLocalStorage = (country, city) => {
         )}
         {errorCity && (
           <Error loc="Error">
-            Error: {errorCity.message} Our team is called from the coffe break
+            Error: {errorCity.message} Our team is called from the coffee break
             and will take care of the problem!
           </Error>
         )}
+
         {dataCity && (
           <>
-            <ContainerTop >
-            
-              <ContainerDescriptionTop >
-                <Subtitle >
+            <ContainerTop loc="ContainerTop">
+              <ImageCity loc="ImageCity" src={compactDataCity.image} />
+              <ContainerDescriptionTop loc="ContainerDescriptionTop">
+                <CountrySubtitle loc="CountrySubtitle">
                   Country: {country}
+                </CountrySubtitle>
+                <Subtitle loc="Subtitle">
+                  Region: {compactDataCity.reg}
                 </Subtitle>
-                <Subtitle >City: {city}</Subtitle>
+                <Subtitle loc="Subtitle">City: {city}</Subtitle>
               </ContainerDescriptionTop>
-              <ImageCity  src={compactDataCity.image} />
             </ContainerTop>
-            <ContainerDescriptionBottom >
-              <CityDescription >
+            <ContainerDescriptionBottom loc="ContainerDescriptionBottom">
+              <CityDescription loc="CityDescription">
                 Description: {compactDataCity.description}
               </CityDescription>
             </ContainerDescriptionBottom>
@@ -114,12 +126,12 @@ const addLocalStorage = (country, city) => {
         )}
       </SectionCityData>
       <SectionLandmarkData loc="SectionLandmarkData">
-      {loadingDestination && (
+        {loadingDestination && (
           <Loading loc="Loading">Loading... Waiting for landing...</Loading>
         )}
         {errorDestination && (
           <Error loc="Error">
-            Error: {errorCity.message} Our team is called from the coffe break
+            Error: {errorCity.message} Our team is called from the coffee break
             and will take care of the problem!
           </Error>
         )}
@@ -128,16 +140,34 @@ const addLocalStorage = (country, city) => {
             <DestinationCard key={index} {...destination} />
           ))}
       </SectionLandmarkData>
-      <SectionCityButtons>
-        <ButtonCity  to={`/intinerary`}
-         onClick={() => {
-          addLocalStorage(country, city);
-        }}
+      <SectionCityButtons loc="SectionCityButtons">
+        {console.log("country", country)}
+        <ButtonCity
+          loc="ButtonCity"
+          onClick={(event) => {
+            handleAddItinerary(country, city, event);
+          }}
+          to={`/itinerary`}
         >
-          Save {city} to my intinerary!
+          Save {city} to my itinerary!
         </ButtonCity>
-        <ButtonCity>I want to book accommodation!</ButtonCity>
+        <ButtonCity loc="ButtonCity">I want to book accommodation!</ButtonCity>
       </SectionCityButtons>
+      {!unique && (
+        <InfoSection loc="InfoSection">
+          <InfoUser loc="InfoUser">
+            This item is already in the Itinerary!
+          </InfoUser>
+          <SectionInfoButtons loc="SectionInfoButtons">
+            <ButtonInfo loc="ButtonInfo" to={`/home`}>
+              I want to choose an other option from Home screen!
+            </ButtonInfo>
+            <ButtonInfo loc="ButtonInfo" to={`/itinerary`}>
+              Ok, go to Itinerary!
+            </ButtonInfo>
+          </SectionInfoButtons>
+        </InfoSection>
+      )}
     </>
   );
 };

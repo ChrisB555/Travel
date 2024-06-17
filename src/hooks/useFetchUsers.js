@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const API_URL = "http://localhost:3001/users";
 
-const useFetchUsers = (id = "") => {
+const useFetchUsers = (id ) => {
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

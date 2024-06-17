@@ -13,9 +13,10 @@ import { List, X } from "react-bootstrap-icons";
 export const routes = [
   { title: "Home", href: "home" },
   { title: "About", href: "about" },
-  { title: "Itinerary", href: "my-travel" },
-  { title: "My Choices", href: `/my-choices/:id` },
-  { title: "Contact", href: `/contact/:id` },
+  { title: "Itinerary", href: "itinerary" },
+  { title: "My Choices", href: "my-choices" },
+  { title: "Account", href: "account" },
+  { title: "Contact", href: "contact" },
 ];
 
 function NavBar() {

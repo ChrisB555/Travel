@@ -1,51 +1,56 @@
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { useContext } from "react";
+import { ItineraryContext } from "../../Store/itinerary/context";
+import CityCard from "../CityCard/CityCard";
+import { ButtonInfo, InfoSection, InfoUser } from "../Explore/Explore.style";
+import LandmarkCard from "../LandmarkCard/LandmarkCard";
+import { SectionItineraryData } from "./Itinerary.style";
 
-function Intinerary({ country }) {
-  console.log("COMMING SOON!");
-  console.log("country", country);
-  const { localData, isLocalDataEmpty } = useLocalStorage("city");
-  // const existingData = !isLocalDataEmpty ? JSON.parse(localData) : [];
+function Itinerary() {
+  const { stateGlobalItinerary } = useContext(ItineraryContext);
 
-  console.log("tip date localData", typeof localData, localData);
+  const itineraryValueArray = stateGlobalItinerary.itineraryValue;
+  console.log("itineraryValueArray", itineraryValueArray);
 
-  // useEffect(() => {
-  //   console.log("localData", localData, "isLocalDataEmpty", isLocalDataEmpty);
-  //   if (localData || isLocalDataEmpty)
+  const itineraryLandmarkValueArray =
+    stateGlobalItinerary.itineraryLandmarkValue;
+  console.log("itineraryLandmarkValueArray", itineraryLandmarkValueArray);
 
-  //   console.log("parsed localData", JSON.parse(localData));
-  // }, [localData, isLocalDataEmpty]);
-
-  // let localDataArray = [];
-  // localData !== "string"
-  //   ? (localDataArray = JSON.parse(localData))
-  //   : localData === localData;
-
-  // console.log("localDataArray", localDataArray);
-
-  const localDataArray = JSON.parse(localData);
   return (
     <>
-      {/* {!isLocalDataEmpty && typeof localData === "object" ? (
-        <div>{localData}</div>
-      ) : (
-        !isLocalDataEmpty &&
-        typeof localData === "array" &&
-        localDataArray?.map((element, index) => (
-          <div key={index}>
-            {index}
-            {element}
-          </div>
-        ))
-      )} */}
-      {!isLocalDataEmpty &&
-        localDataArray?.map((element, index) => (
-          <div key={index}>
-            {index}
-            {element}
-          </div>
-        ))}
-      {!isLocalDataEmpty && console.log(localData)}
+      <SectionItineraryData loc="SectionItineraryData">
+        {itineraryValueArray.length === 0 &&
+        itineraryLandmarkValueArray.length === 0 ? (
+          <InfoSection loc="InfoSection">
+            <InfoUser loc="InfoUser">
+              You didn't choose any itinerary yet! Go to "I Want To Explore
+              Offers" and select a destination that you like to know more about!
+            </InfoUser>
+            <ButtonInfo loc="ButtonInfo" to={`/home`}>
+              Take me back to Home screen!
+            </ButtonInfo>
+          </InfoSection>
+        ) : null}
+        {/* {itineraryLandmarkValueArray.length === 0 ? (
+          <InfoSection loc="InfoSection">
+            <InfoUser loc="InfoUser">
+              You didn't choose any itinerary yet! Go to "I Want To Explore
+              Offers" and select a destination that you like to know more about!
+            </InfoUser>
+            <ButtonInfo loc="ButtonInfo" to={`/home`}>
+              Take me back to Home screen!
+            </ButtonInfo>
+          </InfoSection>
+        ) : null} */}
+        {stateGlobalItinerary &&
+          itineraryValueArray?.map((element, index) => (
+            <CityCard key={index} index={index} {...element} />
+          ))}
+        {stateGlobalItinerary &&
+          itineraryLandmarkValueArray?.map((element, index) => (
+            <LandmarkCard key={index} index={index} {...element} />
+          ))}
+      </SectionItineraryData>
     </>
   );
 }
-export default Intinerary;
+export default Itinerary;

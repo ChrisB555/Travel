@@ -5,38 +5,37 @@ import {
   ORANGE,
   WHITE_NEUTRAL,
   YELLOW,
+  MIDDLE_BLUE,
 } from "../../constants/Colors";
 import { TEXT_SIZE_MEDIUM, TEXT_SIZE_SMALL } from "../../constants/Dimensions";
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   color: ${ORANGE};
   font-size: ${TEXT_SIZE_MEDIUM};
-  margin:20px auto;
 `;
 
 export const ContainerTop = styled.div`
- 
+  position: relative;
 `;
 
 export const ImageCity = styled.img`
-  width: 60%;
-  height: auto;
- 
+  width: 100%;
+  height: 70vh;
+  opacity: 0.6;
+  object-fit: contain;
 `;
 
 export const ContainerDescriptionTop = styled.div`
-
-  margin: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
   color: ${ORANGE};
 `;
 
 export const Subtitle = styled.h2`
   font-size: ${TEXT_SIZE_MEDIUM};
   text-align: left;
-  @media screen and (max-width: 820px) {
-   font-size:18px;
-   
-  }
 `;
 
 export const CountrySubtitle = styled(Subtitle)`
@@ -46,8 +45,8 @@ export const CountrySubtitle = styled(Subtitle)`
 export const ContainerDescriptionBottom = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 20px;
- 
+  margin-top: 10px;
+  background-color: rgba(255, 165, 0, 0.3);
 `;
 
 export const CityDescription = styled.h3`
@@ -59,11 +58,6 @@ export const CityDescription = styled.h3`
   font-size: ${TEXT_SIZE_SMALL};
   color: ${WHITE_NEUTRAL};
   text-align: justify;
-  @media screen and (max-width: 820px) {
-    margin-top: 40px;
-    width: 80%;
-   
-  }
 `;
 
 export const SectionCityData = styled.section`
@@ -75,40 +69,48 @@ export const SectionCityData = styled.section`
 export const SectionCityButtons = styled.section`
   display: flex;
   flex-direction: row;
-  margin: 20px 0;
-  @media screen and (max-width: 820px) {
-    margin-top: 40px;
-    width: 90%;
-    flex-direction:column;
-   
-  }
+  margin: 50px 0;
 `;
 
 export const ButtonCity = styled(Link)`
   background: ${WHITE_NEUTRAL};
   color: ${DARK_BLUE};
-  width: 300px;
+  width: 100%;
   padding: 6px 12px;
-  margin: 2px auto;
+  margin: 10px;
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  &:hover {
-    background: ${DARK_BLUE};
-    color: ${WHITE_NEUTRAL};
-    border: solid 2px white;
-   
-  }
-  @media screen and (max-width: 820px) {
-    margin: 20px auto;
-    width: 90%;
-    height: 35px;
-  }
 `;
 
 export const SectionLandmarkData = styled.section`
-  /* display: grid; */
+  /* display: flex;
+  margin: 10px 0; */
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+`;
+export const InfoSection = styled.div`
   display: flex;
-  margin: 10px 0;
+  flex-direction: column;
+  margin: 50px 0;
+  align-items: center;
+`;
+
+export const InfoUser = styled.div`
+  display: flex;
+  color: ${MIDDLE_BLUE};
+  font-size: ${TEXT_SIZE_SMALL};
+  width: 100%;
+  justify-content: center;
+`;
+
+export const SectionInfoButtons = styled(SectionCityButtons)``;
+
+export const ButtonInfo = styled(ButtonCity)`
+  background: ${MIDDLE_BLUE};
+  color: ${WHITE_NEUTRAL};
+  align-content: center;
+  height: 64px;
 `;
