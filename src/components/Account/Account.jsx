@@ -96,12 +96,9 @@ const Account = () => {
 
     if (users && users.length > 0 && value !== "") {
       setIsFound(foundUser !== undefined);
-      console.log(isFound);
     } else {
       setIsFound(false);
-      console.log(isFound);
     }
-    return value;
   };
  
 
@@ -130,15 +127,14 @@ const Account = () => {
     const userData = users.find((element) => element.Email === inputObj.Email);
     setShow(!show);
     setShowA(true);
-    console.log(inputObj.Email);
     handleLocalData("user", JSON.stringify(userData.id));
-    console.log(userData.id)
-    navigate(`/login/${userData.id}`);
      dispatchChoice(removeAllChoice());
-     clearFields();
-    if (userData) {
-      dispatchChoice(addAllChoice(userData.choices));
-   
+     
+    if (userData || inputObj.Email !== "") {
+      dispatchChoice(addAllChoice(userData.choices));  
+      console.log(inputObj)   
+    }else{
+      setError("Insert an E-mail!");
     }
 
     if (userData.choices) {
@@ -173,12 +169,17 @@ const Account = () => {
     setIsVisible1(false);
     resetLocalData();
     dispatchChoice(removeAllChoice());
+    clearFields();
+    setShow(false);
+    setShowA(false);
   };
 
   const clearFields = () => {
     setInputObj(defaultObj);
   };
-  console.log(inputObj.Email);
+
+  console.log(inputObj);
+
   return (
     <>
       <AccountButtonsContainer>
@@ -225,7 +226,7 @@ const Account = () => {
             </ContactButton>)
       }
 
-       {isValid && isFound && show && error &&
+       {isValid && isFound === true && show  &&
                 useToast(
                   "Account",
                   ` You are Loged in! user : ${inputObj.Email}`,
@@ -234,7 +235,7 @@ const Account = () => {
                   toggleShowA
                 )}
             
-          {(isFound === true && isValid && show )? (
+          {(isFound === true && isValid && show  )? (
             <>
               <ContactButton to={`/home`}>Let's start Planning!</ContactButton>
               <ButtonsText>Or you can Log Out</ButtonsText>

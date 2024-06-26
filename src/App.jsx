@@ -13,7 +13,6 @@ import MyTravelRegion from "./components/MyTravelRegion/MyTravelRegion";
 import Itinerary from "./components/Itinerary/Itinerary";
 import MyChoices from "./components/MyChoices/MyChoices";
 import Users from "./components/Users/Users";
-import Login from "./components/Users/Login";
 import Account from "./components/Account/Account";
 import Accomodation from "./components/Accomodation/Accomodation";
 
@@ -71,7 +70,6 @@ function App() {
         ></Route>
         <Route path="/explore/:country/:city" element={<Explore />}></Route>
         <Route path="/users/:id" element={<Users />} />
-        <Route path="/login/:id" element={<Login />} />
         <Route path="/account" element={<Account />}></Route>
         <Route path="/itinerary" element={<Itinerary />}></Route>
         <Route path="/my-choices/:id" element={<MyChoices />}></Route>

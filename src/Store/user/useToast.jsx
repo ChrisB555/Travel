@@ -8,7 +8,7 @@ function useToast(toastTitle, toastText, className, showA, toggleShowA) {
         <strong className="me-auto">{toastTitle}</strong>
         <small>just now</small>
       </Toast.Header>
-      <Toast.Body>{toastText}</Toast.Body>
+      <Toast.Body style={{fontSize:"18px",color:" #ffa500",backgroundColor:"#ffffff"}}>{toastText}</Toast.Body>
     </Toast>
   );
 }
