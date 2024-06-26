@@ -1,76 +1,84 @@
-import { useContext, useState } from "react";
-import { ChoiceContext } from "../../Store/context";
-import { removeChoice } from "../../Store/actions";
-import { Button, Modal } from "react-bootstrap";
+import { useState } from "react";
 import {
-  TextChoice,
-  MainContainerChoice,
-  DataContainerChoice,
-  TextOrangeChoice,
   ButtonPlanTravel,
+  DataContainerChoice,
+  MainContainerChoice,
   PageContainerTravel,
+  TextChoice,
+  TextOrangeChoice,
 } from "../MyTravelCity/MyTravel.style";
-import ThreeDays from "../MyTravelRecommend/ThreeDays";
 import FiveDays from "../MyTravelRecommend/FiveDays";
-import SevenDays from "../MyTravelRecommend/SevenDays";
+import HighBuget from "../MyTravelRecommend/HighBuget";
 import LowBuget from "../MyTravelRecommend/LowBuget";
 import MediumBuget from "../MyTravelRecommend/MediumBuget";
-import HighBuget from "../MyTravelRecommend/HighBuget";
+import SevenDays from "../MyTravelRecommend/SevenDays";
+import ThreeDays from "../MyTravelRecommend/ThreeDays";
+import { Button, Modal } from "react-bootstrap";
 
-function MyChoicesBox({ country, city, region, buget, period, data, index }) {
-
-
+function MyChoicesBox({
+  country,
+  city,
+  region,
+  buget,
+  period,
+  data,
+  handleDelete,
+  index,
+}) {
   const [show, setShow] = useState(false);
-  const {  dispatchChoice } = useContext(ChoiceContext);
-  
- 
 
-  const bugetTravelNoSpace = buget.replace(/ /g, "").toLowerCase();
-  const periodTravelNoSpace = period.replace(/ /g, "").toLowerCase();
+  const bugetTravelNoSpace = buget?.replace(/ /g, "").toLowerCase();
+  const periodTravelNoSpace = period?.replace(/ /g, "").toLowerCase();
 
-  const keyBuget = Object.keys(data[0].buget);
-  const keyPeriod = Object.keys(data[0].period);
+  const keyBuget = data && Object.keys(data?.[0]?.buget);
+  const keyPeriod = data && Object.keys(data?.[0]?.period);
 
   const equalBugetLow =
-    bugetTravelNoSpace == keyBuget[0].toLowerCase() ? true : false;
+    bugetTravelNoSpace == keyBuget?.[0]?.toLowerCase() ? true : false;
   const equalBugetMedium =
-    bugetTravelNoSpace == keyBuget[1].toLowerCase() ? true : false;
+    bugetTravelNoSpace == keyBuget?.[1]?.toLowerCase() ? true : false;
   const equalBugetHigh =
-    bugetTravelNoSpace == keyBuget[2].toLowerCase() ? true : false;
+    bugetTravelNoSpace == keyBuget?.[2]?.toLowerCase() ? true : false;
 
   const equalPeriodThree =
-    periodTravelNoSpace == keyPeriod[0].toLowerCase() ? true : false;
+    periodTravelNoSpace == keyPeriod?.[0].toLowerCase() ? true : false;
   const equalPeriodFive =
-    periodTravelNoSpace == keyPeriod[1].toLowerCase() ? true : false;
+    periodTravelNoSpace == keyPeriod?.[1].toLowerCase() ? true : false;
   const equalPeriodSeven =
-    periodTravelNoSpace == keyPeriod[2].toLowerCase() ? true : false;
-
-  const handleDelete = (index) => {
-    dispatchChoice(removeChoice(index));
-    setShow(false);
-  };
+    periodTravelNoSpace == keyPeriod?.[2].toLowerCase() ? true : false;
 
   const handleCloseShow = () => {
     setShow(!show);
   };
+
   return (
     <>
       <>
-        <Modal show={show} >
+        <Modal show={show} onHide={() => handleCloseShow()}>
           <Modal.Header closeButton>
             <Modal.Title>Delete</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             {city ? (
-              <p>Are you sure you want to DELETE "{city}" </p>
+              <p>
+                Are you sure you want to DELETE "{city}, {period}, {buget}"{" "}
+              </p>
             ) : (
-              <p>Are you sure you want to DELETE "{region}" </p>
+              <p>
+                Are you sure you want to DELETE "{region}, {period}, {buget}"{" "}
+              </p>
             )}
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="danger" onClick={() => handleDelete(index)}>
+            <Button
+              variant="danger"
+              onClick={() => {
+                handleDelete(index);
+                handleCloseShow();
+              }}
+            >
               YES
             </Button>
             <Button variant="secondary" onClick={() => handleCloseShow()}>
@@ -79,62 +87,66 @@ function MyChoicesBox({ country, city, region, buget, period, data, index }) {
           </Modal.Footer>
         </Modal>
       </>
-      <PageContainerTravel>
-        <DataContainerChoice>
-          <TextOrangeChoice> Country:</TextOrangeChoice>
-          <TextChoice>{country}</TextChoice>
+      <PageContainerTravel loc="PageContainerTravel">
+        <DataContainerChoice loc="DataContainerChoice">
+          <TextOrangeChoice loc="TextOrangeChoice"> Country:</TextOrangeChoice>
+          <TextChoice loc="TextChoice">{country}</TextChoice>
         </DataContainerChoice>
 
         {city ? (
-          <DataContainerChoice>
-            <TextOrangeChoice> City:</TextOrangeChoice>
-            <TextChoice>{city}</TextChoice>
+          <DataContainerChoice loc="DataContainerChoice">
+            <TextOrangeChoice loc="TextOrangeChoice"> City:</TextOrangeChoice>
+            <TextChoice loc="TextChoice">{city}</TextChoice>
           </DataContainerChoice>
         ) : (
-          <DataContainerChoice>
-            <TextOrangeChoice> Region:</TextOrangeChoice>
-            <TextChoice>{region}</TextChoice>
+          <DataContainerChoice loc="DataContainerChoice">
+            <TextOrangeChoice loc="TextOrangeChoice"> Region:</TextOrangeChoice>
+            <TextChoice loc="TextChoice">{region}</TextChoice>
           </DataContainerChoice>
         )}
 
         {period ? (
-          <MainContainerChoice>
-            <DataContainerChoice>
-              <TextOrangeChoice> Period:</TextOrangeChoice>
-              <TextChoice>{period} </TextChoice>
+          <MainContainerChoice loc="MainContainerChoice">
+            <DataContainerChoice loc="DataContainerChoice">
+              <TextOrangeChoice loc="TextOrangeChoice">
+                Period:
+              </TextOrangeChoice>
+              <TextChoice loc="TextChoice">{period} </TextChoice>
             </DataContainerChoice>
             {equalPeriodThree
-              ? data.map((e, index) => <ThreeDays key={index} {...e} />)
+              ? data?.map((e, index) => <ThreeDays key={index} {...e} />)
               : null}
             {equalPeriodFive
-              ? data.map((e, index) => <FiveDays key={index} {...e} />)
+              ? data?.map((e, index) => <FiveDays key={index} {...e} />)
               : null}
             {equalPeriodSeven
-              ? data.map((e, index) => <SevenDays key={index} {...e} />)
+              ? data?.map((e, index) => <SevenDays key={index} {...e} />)
               : null}
           </MainContainerChoice>
         ) : null}
 
         {buget ? (
-          <MainContainerChoice>
-            <DataContainerChoice>
-              <TextOrangeChoice> Buget:</TextOrangeChoice>
-              <TextChoice>{buget}</TextChoice>
+          <MainContainerChoice loc="MainContainerChoice">
+            <DataContainerChoice loc="DataContainerChoice">
+              <TextOrangeChoice loc="TextOrangeChoice">Buget:</TextOrangeChoice>
+              <TextChoice loc="TextChoice">{buget}</TextChoice>
             </DataContainerChoice>
             {equalBugetLow
-              ? data.map((e, index) => <LowBuget key={index} {...e} />)
+              ? data?.map((e, index) => <LowBuget key={index} {...e} />)
               : null}
             {equalBugetMedium
-              ? data.map((e, index) => <MediumBuget key={index} {...e} />)
+              ? data?.map((e, index) => <MediumBuget key={index} {...e} />)
               : null}
 
             {equalBugetHigh
-              ? data.map((e, index) => <HighBuget key={index} {...e} />)
+              ? data?.map((e, index) => <HighBuget key={index} {...e} />)
               : null}
           </MainContainerChoice>
         ) : null}
-
-        <ButtonPlanTravel onClick={() => handleCloseShow(index)}>
+        <ButtonPlanTravel
+          loc="ButtonPlanTravel"
+          onClick={() => handleCloseShow(index)}
+        >
           Delete my choice
         </ButtonPlanTravel>
       </PageContainerTravel>

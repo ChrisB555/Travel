@@ -1,8 +1,4 @@
 import { useState } from "react";
-//import { useEffect } from "react";
-//import { useParams } from "react-router-dom";
-//import useFetchUsers from "../../hooks/useFetchUsers";
-//import useLocalStorage from "../../hooks/useLocalStorage";
 import ContactForm from "./ContactForm";
 import ContactFormTextarea from "./ContactFormTextarea";
 import {
@@ -12,16 +8,17 @@ import {
   ErrorP,
 } from "./Contact.style";
 
-const Contact = () => {
-  //const { id } = useParams();
+const defaultObj = {
+  Name: "",
+  SurName: "",
+  Mobile: "",
+  Email: "",
+  Textarea: "",
+}
 
-  const [inputObj, setInputObj] = useState({
-    Name: "",
-    SurName: "",
-    Mobile: "",
-    Email: "",
-    Textarea: "",
-  });
+const Contact = () => {
+
+  const [inputObj, setInputObj] = useState(defaultObj);
 
   const [errorInput, setErrorInput] = useState({
     Name: undefined,
@@ -32,10 +29,15 @@ const Contact = () => {
   });
 
   const [isValid, setIsValid] = useState(true);
+ 
 
   const handleChange = (e, name) => {
     setInputObj({ ...inputObj, [name]: e.target.value });
     handleError(e.target.value, name);
+  };
+
+  const clearFields = () => {
+    setInputObj(defaultObj);
   };
 
   const handleSubmit = async () => {
@@ -48,18 +50,11 @@ const Contact = () => {
       },
     });
     const response = await add.json();
+    clearFields();
     return response[0].id;
   };
-/*
-  const { handleLocalData, resetLocalData } = useLocalStorage("users");
 
-  const addNewId = async () => {
-    resetLocalData();
-    const id = await handleSubmit();
-    handleLocalData("users", JSON.stringify(id));
-    console.log(id);
-    return id;
-  };*/
+  
 
   const handleError = (value, name) => {
     switch (name) {
@@ -70,7 +65,6 @@ const Contact = () => {
             [name]: "This field is required.",
           });
           setIsValid(false);
-          console.log(isValid);
         } else if (value === "Name") {
           setErrorInput({ ...errorInput, [name]: "Error" });
           setIsValid(false);
@@ -161,6 +155,7 @@ const Contact = () => {
             value={inputObj[el]}
             handleChange={handleChange}
             error={errorInput[el]}
+       
           />
         ) : (
           <ContactForm
@@ -176,7 +171,6 @@ const Contact = () => {
 
       {isValid === true && (
         <ContactButton
-        //to={`/users/${id}`}
           onClick={() => {
             handleSubmit();
           }}

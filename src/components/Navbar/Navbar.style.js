@@ -31,28 +31,31 @@ export const LinkNavStyle = styled(Link)`
   margin:10px ;
   border-radius:4px;
   position:relative;
+  
   &:hover {
    color:  ${WHITE_NEUTRAL};
   }
   @media screen and (max-width: 820px) {
     color: ${DARK_BLUE};
     margin:0 auto;
+    padding:2px;
+   
   }
 `;
 
 export const LinkContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background:  ${WHITE_NEUTRAL};
   width: 90%;
   margin:30px auto;
-
+  height:auto;
 `;
 
 export const DropdownContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column ;
+  flex-wrap:wrap;
   width: 100%;
   position: absolute;
   top: 60px;
@@ -76,6 +79,7 @@ export const LinkContainerDesktop = styled.div`
     display: none;
   }
 `;
+
 
 export const ButtonDropdown = styled.button`
   width: 40px;

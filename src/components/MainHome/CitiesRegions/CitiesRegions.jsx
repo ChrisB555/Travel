@@ -19,7 +19,6 @@ import Spinner from "react-bootstrap/Spinner";
 
 function CitiesRegions() {
   const { country, id } = useParams();
-  console.log("country", country, "id", id);
   const [clicked, setClicked] = useState(true);
   const [isCity, setIsCity] = useState(null);
   const [city, setCity] = useState("");
@@ -60,7 +59,7 @@ function CitiesRegions() {
             <MainContainer>
               <Text>Country: {compactData.name}</Text>
               <DataContainer>
-                <ImgContainer src={compactData.image} />
+               {/* <ImgContainer src={compactData.image} />*/}
                 <TextContainer>{compactData.description}</TextContainer>
               </DataContainer>
             </MainContainer>
@@ -78,9 +77,9 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectCity>
-                <ButtonPlan to={`/my-travel1/${country}/${city}/${id}`}>
+             {city &&   <ButtonPlan to={`/my-travel1/${country}/${city}/${id}`}>
                   Search
-                </ButtonPlan>
+                </ButtonPlan>}
               </FiltersContainer>
               <FiltersContainer
                 isCity={!isCity}
@@ -97,16 +96,14 @@ function CitiesRegions() {
                       );
                     })}
                 </SelectRegion>
-                <ButtonPlan to={`/my-travel2/${country}/${region}/${id}`}>
+              {region && <ButtonPlan to={`/my-travel2/${country}/${region}/${id}`}>
                   Search
-                </ButtonPlan>
+                </ButtonPlan>}
               </FiltersContainer>
             </DataContainer>
           </>
         )}
       </PageContainer>
-      {console.log(country, city, region)}
-      {data && console.log(data)}
     </>
   );
 }

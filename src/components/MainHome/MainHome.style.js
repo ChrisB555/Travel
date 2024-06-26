@@ -42,7 +42,6 @@ export const Buttons = styled.button`
   color: ${DARK_BLUE};
   margin: 0 10px;
   cursor: pointer;
-  border-radius: 5px;
   &:hover {
     background: ${DARK_BLUE};
     color: ${WHITE_NEUTRAL};
@@ -54,7 +53,7 @@ export const Buttons = styled.button`
     border: solid 2px white;
   }
   @media screen and (max-width: 820px) {
-    margin-top: 40px;
+    margin-top: 60px;
     width: 70%;
     height: 35px;
   }
@@ -66,7 +65,6 @@ export const SelectContainer = styled.div`
   justify-content: space-evenly;
   width: 100%;
   position: absolute;
-  border-radius: 8px;
   margin: 30px auto;
 
 `;
@@ -94,7 +92,6 @@ export const Select = styled.select`
 export const SelectPlan = styled.select`
   width: 300px;
   height: 35px;
-  border-radius: 8px;
   margin: 10px;
   text-align: center;
   font-weight: 700;
@@ -126,7 +123,6 @@ export const HomeBtn = styled(Link)`
   color: ${ORANGE};
   margin:  40px auto;
   cursor: pointer;
-  border-radius: 5px;
  
   &:hover {
     background: ${DARK_BLUE};

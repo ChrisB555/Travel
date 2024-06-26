@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { itineraryPlus } from "../../Store/itinerary/actions";
 import { ItineraryContext } from "../../Store/itinerary/context";
 import useFetchData from "../../hooks/useFetchData";
@@ -7,24 +7,26 @@ import DestinationCard from "../DestinationCard/DestinationCard";
 import { Error, Loading } from "../MainHome/MainHome.style";
 import {
   ButtonCity,
-  ButtonInfo,
   CityDescription,
   ContainerDescriptionBottom,
   ContainerDescriptionTop,
   ContainerTop,
   CountrySubtitle,
   ImageCity,
-  InfoSection,
-  InfoUser,
   SectionCityButtons,
   SectionCityData,
-  SectionInfoButtons,
   SectionLandmarkData,
   Subtitle,
   Title,
+  ButtonAccomodation,
 } from "./Explore.style";
 
+import useToast from "../../Store/user/useToast";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 const Explore = () => {
+  const navigate = useNavigate();
+
   const { stateGlobalItinerary, dispatchItinerary } =
     useContext(ItineraryContext);
 
@@ -37,6 +39,9 @@ const Explore = () => {
 
   const itineraryValueArray = stateGlobalItinerary.itineraryValue || [];
   console.log("itineraryValueArray", itineraryValueArray);
+
+  const { localData } = useLocalStorage("user");
+  console.log("localData", localData);
 
   const { country, city } = useParams();
 
@@ -51,8 +56,9 @@ const Explore = () => {
     loading: loadingCity,
   } = useFetchData(urlCity, clicked, setClicked);
 
-  const urlDestination =
-    country && city ? `http://localhost:3001/destinations?city=${city}` : null;
+  const urlDestination = city
+    ? `http://localhost:3001/destinations?city=${city}`
+    : null;
 
   const {
     data: dataDestination,
@@ -62,10 +68,14 @@ const Explore = () => {
 
   const compactDataCity = dataCity ? dataCity[0] : null;
   console.log("compactDataCity", compactDataCity);
+
   const [unique, setUnique] = useState(true);
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
+  const [onAdd, setOnAdd] = useState(false);
 
   const handleAddItinerary = (country, city, event) => {
-    // console.log("itineraryValueArray", itineraryValueArray);
+    setOnAdd(true);
     console.log("HANDLE ADD ITINERARY");
 
     const addObject = { country, city };
@@ -80,6 +90,7 @@ const Explore = () => {
     if (isDuplicate) {
       console.log("cannot be added");
       setUnique(false);
+      setShowA(true);
       event.preventDefault();
     } else {
       console.log("can be added");
@@ -87,6 +98,34 @@ const Explore = () => {
       dispatchItinerary(itineraryPlus({ country, city }));
     }
   };
+
+  let accommodationArray = [];
+
+  const populateAccommondationArray = (arr) => {
+    let cityArr = "";
+    let countryArr = "";
+
+    for (let key of arr) {
+      console.log("key", key);
+      cityArr = key["city"];
+      countryArr = key["country"];
+      accommodationArray.push({ countryArr, cityArr });
+      console.log("accommodationArray", accommodationArray);
+    }
+    return accommodationArray;
+  };
+
+  populateAccommondationArray(itineraryValueArray);
+
+  const goAccomm = () => {
+    console.log("GO ACCOMM");
+    console.log("Navigating to: ", `/accommodation/${localData}`);
+    console.log("State: ", { accommodationArray });
+    navigate(`/accommodation/${localData}`, {
+      state: [accommodationArray],
+    });
+  };
+
   return (
     <>
       <SectionCityData loc="SectionCityData">
@@ -140,34 +179,42 @@ const Explore = () => {
             <DestinationCard key={index} {...destination} />
           ))}
       </SectionLandmarkData>
-      <SectionCityButtons loc="SectionCityButtons">
-        {console.log("country", country)}
-        <ButtonCity
-          loc="ButtonCity"
-          onClick={(event) => {
-            handleAddItinerary(country, city, event);
-          }}
-          to={`/itinerary`}
-        >
-          Save {city} to my itinerary!
-        </ButtonCity>
-        <ButtonCity loc="ButtonCity">I want to book accommodation!</ButtonCity>
-      </SectionCityButtons>
-      {!unique && (
-        <InfoSection loc="InfoSection">
-          <InfoUser loc="InfoUser">
-            This item is already in the Itinerary!
-          </InfoUser>
-          <SectionInfoButtons loc="SectionInfoButtons">
-            <ButtonInfo loc="ButtonInfo" to={`/home`}>
-              I want to choose an other option from Home screen!
-            </ButtonInfo>
-            <ButtonInfo loc="ButtonInfo" to={`/itinerary`}>
-              Ok, go to Itinerary!
-            </ButtonInfo>
-          </SectionInfoButtons>
-        </InfoSection>
+      {dataCity && (
+        <SectionCityButtons loc="SectionCityButtons">
+          {console.log("country", country)}
+          <ButtonCity
+            loc="ButtonCity"
+            onClick={(event) => {
+              handleAddItinerary(country, city, event);
+            }}
+          >
+            Save {city} to my itinerary!
+          </ButtonCity>
+          <ButtonAccomodation
+            loc="ButtonAccomodation"
+            onClick={() => goAccomm()}
+          >
+            I want to book accommodation!
+          </ButtonAccomodation>
+        </SectionCityButtons>
       )}
+      {!unique &&
+        useToast(
+          "Intinerary",
+          `${city} is already in the Itinerary!`,
+          "",
+          showA,
+          toggleShowA
+        )}
+      {unique &&
+        onAdd &&
+        useToast(
+          "Intinerary",
+          `Succes! ${city} was added to the Itinerary!`,
+          "",
+          showA,
+          toggleShowA
+        )}
     </>
   );
 };

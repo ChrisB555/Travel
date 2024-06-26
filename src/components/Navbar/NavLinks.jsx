@@ -2,24 +2,23 @@ import {
   ChoiceDropdownContainer,
   LinkNavStyle,
   ChoiceDropdown,
+ 
 } from "./Navbar.style";
 import { useContext, useState } from "react";
 import { ChoiceContext } from "../../Store/context";
+import { ItineraryContext } from "../../Store/itinerary/context";
 import Badge from "react-bootstrap/Badge";
-import ChoiceDropdownMenu from "./ChoiceDropdownMenu";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 
 function NavLinks({ href, title }) {
   const { stateGlobalChoice } = useContext(ChoiceContext);
-  const [hover, setHover] = useState(false);
-  const hoverData = stateGlobalChoice.choiceValue;
+  const { stateGlobalItinerary } = useContext(ItineraryContext);
+  const { localData } = useLocalStorage("user");
 
-  const onHover = () => {
-    setHover(true);
-  };
-
-  const onHoverOver = () => {
-    setHover(false);
-  };
+  const style={
+    marginLeft:"-20px",
+  }
 
   return (
     <>
@@ -27,34 +26,28 @@ function NavLinks({ href, title }) {
 
       <LinkNavStyle to={href}>
         {title === "My Choices" ? (
-          <Badge bg="success" style={{ marginLeft: "-30px" }}>
-            {stateGlobalChoice.choiceValue.length > 0
-              ? stateGlobalChoice.choiceValue.length
+          <Badge bg="warning" style={style} >
+            {stateGlobalChoice.choiceValue?.length > 0
+              ? stateGlobalChoice.choiceValue?.length
               : 0}{" "}
           </Badge>
         ) : null}{" "}
       </LinkNavStyle>
-{/*
-      <LinkNavStyle
-        onMouseEnter={() => onHover()}
-        onMouseLeave={() => onHoverOver()}
-      >
-       
-          {title === "My Choices"
-            ? hover &&
-              hoverData.map((e, index) => (
-                <ChoiceDropdownMenu
-                  key={index}
-                  country={e.country}
-                  city={e.city}
-                  region={e.region}
-                  period={e.period}
-                  buget={e.buget}
-                />
-              ))
-            : null}{" "}
-     
-      </LinkNavStyle>*/}
+    
+    
+      <LinkNavStyle to={href}>
+        {title === "Itinerary" ? (
+          <Badge  bg="warning" style={{ marginLeft: "-60px" }} >
+            {stateGlobalItinerary.itineraryValue?.length +
+              stateGlobalItinerary.itineraryLandmarkValue?.length >
+            0
+              ? stateGlobalItinerary.itineraryValue?.length +
+                stateGlobalItinerary.itineraryLandmarkValue?.length
+              : 0}{" "}
+          </Badge>
+        ) : null}{" "}
+      </LinkNavStyle>
+    
     </>
   );
 }

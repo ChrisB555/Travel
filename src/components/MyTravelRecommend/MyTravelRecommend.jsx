@@ -1,6 +1,6 @@
 import {
   MainContainerRecommend,
-  DataContainerRecommend,
+  ContainerRecommend,
 } from "../MyTravelRecommend/MyTravelRecommend.style";
 import ThreeDays from "./ThreeDays";
 import FiveDays from "./FiveDays";
@@ -43,7 +43,7 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
       <MainContainerRecommend>
         {data && (
           <>
-            <DataContainerRecommend>
+            <ContainerRecommend>
               {equalPeriodThree
                 ? data.map((e, index) => (
                     <ThreeDays key={index}  {...e} />
@@ -60,8 +60,8 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
                     <SevenDays key={index}  {...e} />
                   ))
                 : null}
-                 </DataContainerRecommend>
-                 <DataContainerRecommend>
+                 </ContainerRecommend>
+                 <ContainerRecommend>
               {equalBugetLow
                 ? data.map((e, index) => (
                     <LowBuget key={index}  {...e} />
@@ -78,7 +78,7 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
                     <HighBuget key={index}  {...e} />
                   ))
                 : null}
-           </DataContainerRecommend>
+           </ContainerRecommend>
           </>
         )}
         

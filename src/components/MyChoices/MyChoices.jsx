@@ -1,20 +1,31 @@
-import { useContext } from "react";
-import { useParams } from "react-router-dom";
-import { ChoiceContext } from "../../Store/context";
+import { useContext,useState } from "react";
 import { removeChoice } from "../../Store/actions";
-import { MainContainerChoice } from "../MyTravelCity/MyTravel.style";
+import { ChoiceContext } from "../../Store/context";
 import { ButtonInfo, InfoSection, InfoUser } from "../Explore/Explore.style";
+import { MainContainerChoice } from "../MyTravelCity/MyTravel.style";
 import MyChoicesBox from "./MyChoicesBox";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 
 function MyChoices() {
-  const { id } = useParams();
-  const { stateGlobalChoice } = useContext(ChoiceContext);
+  const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
 
-  console.log("stateGlobalChoice.choiceValue", stateGlobalChoice);
-  console.log("id", id);
+  const { localData } = useLocalStorage("user");
+  
+  
+  const handleDelete = (index) => {
+    dispatchChoice(removeChoice(index));
+  };
+
+  
+
+  console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
+  console.log("id", localData);
+
   return (
     <>
-      {id === undefined && (
+    
+      {localData === undefined && (
         <InfoSection loc="InfoSection">
           <InfoUser>
             Please create an account first and then select "Help Me Plan" from
@@ -25,19 +36,20 @@ function MyChoices() {
           </ButtonInfo>
         </InfoSection>
       )}
-
-      <MainContainerChoice>
+      <MainContainerChoice loc="MainContainerChoice">
         {stateGlobalChoice.choiceValue.map((e, index) => (
           <MyChoicesBox
+            id={localData}
             key={index}
             index={index}
-            id={id}
             country={e.country}
             city={e.city}
             region={e.region}
             period={e.period}
             buget={e.buget}
             data={e.data}
+            handleDelete={() => handleDelete(index)}
+          
           />
         ))}
       </MainContainerChoice>

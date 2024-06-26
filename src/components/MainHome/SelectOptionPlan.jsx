@@ -5,14 +5,16 @@ import { HomeBtn, Option, SelectPlan, SelectContainer } from "./MainHome.style";
 
 
 function SelectOptionPlan() {
-
   const [selectedCountry, setSelectedCountry] = useState("");
   const [clicked, setClicked] = useState(false);
 
-  const url =  selectedCountry? 
-     `http://localhost:3001/${selectedCountry}`:null;
+ 
 
-  const { data, error, loading, setData } = useFetchData(
+  const url = selectedCountry
+    ? `http://localhost:3001/${selectedCountry}`
+    : null;
+
+  const { data} = useFetchData(
     url,
     clicked,
     setClicked
@@ -26,7 +28,6 @@ function SelectOptionPlan() {
     setClicked(true);
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setClicked(true);
@@ -36,6 +37,7 @@ function SelectOptionPlan() {
     <>
       <SelectContainer>
         <form onSubmit={(e) => handleSubmit(e)}>
+       
           <SelectPlan
             value={selectedCountry}
             onChange={handleDropdownChangeCountry}
@@ -48,13 +50,15 @@ function SelectOptionPlan() {
           </SelectPlan>
 
           {data && (
-            <HomeBtn type="submit" to={`/city-region/${selectedCountry}/${localData}`}>
+            <HomeBtn
+              type="submit"
+              to={`/city-region/${selectedCountry}/${localData}`}
+            >
               Let's Begin To Travel!
             </HomeBtn>
           )}
         </form>
       </SelectContainer>
-    
     </>
   );
 }

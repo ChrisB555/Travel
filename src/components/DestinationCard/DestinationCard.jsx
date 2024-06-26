@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { Card } from "react-bootstrap";
-import { itineraryPlus } from "../../Store/itinerary/actions";
 import { itineraryLandmarkPlus } from "../../Store/itinerary/actions";
 import { ItineraryContext } from "../../Store/itinerary/context";
 import { ButtonLandmark } from "../DestinationCard/DestinationCard.style";

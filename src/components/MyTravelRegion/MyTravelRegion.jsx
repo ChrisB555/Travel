@@ -1,15 +1,13 @@
+
 import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import useFetchData from "../../hooks/useFetchData";
 import useFetchUsers from "../../hooks/useFetchUsers";
 import MyTravelRecommend from "../MyTravelRecommend/MyTravelRecommend";
-import { ChoiceContext } from "../../Store/context";
-import { addChoice } from "../../Store/actions";
-import Spinner from "react-bootstrap/Spinner";
 import {
   Text,
   DataContainer,
-  ImgContainer,
 } from "../MainHome/CitiesRegions/CitiesRegions.style";
 import {
   PageContainerTravel,
@@ -18,12 +16,14 @@ import {
   SelectTravel,
   ButtonPlanTravel,
   TextContainerTravel,
-  FiltersTravel,
   ImgContainerTravel,
+  FiltersTravel,
   ButtonChoice,
 } from "../MyTravelCity/MyTravel.style";
-
-
+import { ChoiceContext } from "../../Store/context";
+import { addChoice } from "../../Store/actions";
+import Spinner from "react-bootstrap/Spinner";
+import useToast from "../../Store/user/useToast";
 
 function MyTravelRegion() {
   const { country, region, id } = useParams();
@@ -32,15 +32,25 @@ function MyTravelRegion() {
   const [buget, setBuget] = useState("");
   const [show, setShow] = useState(false);
 
-  const url = country
-    ? `http://localhost:3001/${country}/?region=${region}`
-    : null;
+  const url = country ? `http://localhost:3001/${country}/?region=${region}` : null;
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
   const compactData = data ? data[0] : null;
 
   const optionPeriod = ["three days", "five days", "seven days"];
   const optionBuget = ["Low buget", "Medium buget", "High buget"];
+
+  const { localData } = useLocalStorage("user");
+  console.log("localData", localData);
+
+  const { users: user } = useFetchUsers("/" + localData);
+  console.log("user", user);
+
+  const [unique, setUnique] = useState(true);
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
+  const [onAdd, setOnAdd] = useState(false);
+
 
   const onOptionChangePeriod = (e) => {
     setPeriod(e.target.value);
@@ -52,23 +62,13 @@ function MyTravelRegion() {
     setClicked(true);
   };
 
-  const handleClick = () => {
-    setPeriod(period);
-    setBuget(buget);
-    setShow(!show);
-  };
-
-  const { users: user } = useFetchUsers("/" + id);
-  console.log("user", user);
-
   const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
-  console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
 
   const handleUpdateChoice = (updateDataChoice) => {
     console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
     console.log("stateGlobalChoice", stateGlobalChoice);
     console.log("updateDataChoice", updateDataChoice);
-    fetch(`http://localhost:3001/users/${id}`)
+    fetch(`http://localhost:3001/users/${localData}`)
       .then((response) => response.json())
       .then((userData) => {
         // Check if the user has a 'choices' array, if not, initialize it
@@ -78,7 +78,7 @@ function MyTravelRegion() {
         // Update the user data with the new choice
         const updatedUserData = { ...userData, choices: updatedChoices };
 
-        fetch(`http://localhost:3001/users/${id}`, {
+        fetch(`http://localhost:3001/users/${localData}`, {
           method: "PUT",
           body: JSON.stringify(updatedUserData),
           headers: {
@@ -93,11 +93,43 @@ function MyTravelRegion() {
 
   const handleAdd = (country, region, buget, period, data) => {
     const updateDataChoice = { country, region, buget, period, data };
+    setOnAdd(true);
 
-    dispatchChoice(addChoice(updateDataChoice));
-    console.log("updateDataChoice", updateDataChoice);
-    handleUpdateChoice(updateDataChoice);
+   
+    const isDuplicate = stateGlobalChoice.choiceValue.some(
+      (element) =>
+        element.country === updateDataChoice.country &&
+        element.city === updateDataChoice.city &&
+        element.region === updateDataChoice.region &&
+        element.buget === updateDataChoice.buget &&
+        element.period === updateDataChoice.period
+    );
+   
+    if (isDuplicate) {
+      console.log("cannot be added");
+      setUnique(false);
+      setShowA(true);
+      clearFields();
+    } else {
+      console.log("can be added");
+      setUnique(true);
+      dispatchChoice(addChoice(updateDataChoice));
+      clearFields();
+      handleUpdateChoice(updateDataChoice);
+      console.log( stateGlobalChoice.choiceValue);
+    }
   };
+  const handleClick = () => {
+    setPeriod(period);
+    setBuget(buget);
+    setShow(!show);
+  };
+
+  const clearFields = () => {
+    setShow(!show);
+    setShowA(true);
+  };
+
 
   return (
     <>
@@ -111,7 +143,7 @@ function MyTravelRegion() {
         {data && (
           <>
             <MainContainerTravel>
-              <Text>Region: {compactData.region}</Text>
+              <Text>City: {compactData.region}</Text>
               <DataContainer>
                 <ImgContainerTravel src={compactData.image} />
                 <TextContainerTravel>
@@ -120,16 +152,19 @@ function MyTravelRegion() {
               </DataContainer>
             </MainContainerTravel>
 
-            <FiltersContainerTravel>
-              <FiltersTravel>
-                <SelectTravel onChange={onOptionChangePeriod}>
+            <FiltersContainerTravel loc="FiltersContainerTravel">
+              <FiltersTravel loc="FiltersTravel">
+                <SelectTravel
+                  loc="SelectTravel"
+                  onChange={onOptionChangePeriod}
+                >
                   <option>Choose a period:</option>
                   {optionPeriod.map((option, index) => {
                     return <option key={index}>{option}</option>;
                   })}
                 </SelectTravel>
 
-                <SelectTravel onChange={onOptionChangeBuget}>
+                <SelectTravel loc="SelectTravel" onChange={onOptionChangeBuget}>
                   <option>Choose a buget:</option>
                   {optionBuget.map((option, index) => {
                     return <option key={index}>{option}</option>;
@@ -137,12 +172,16 @@ function MyTravelRegion() {
                 </SelectTravel>
               </FiltersTravel>
 
-              <FiltersTravel>
-                <ButtonPlanTravel onClick={handleClick}>
-                  {show ? "Return" : "Search"}
-                </ButtonPlanTravel>
+              <FiltersTravel loc="FiltersTravel">
+                {(period || buget) && (
+                  <ButtonPlanTravel
+                    loc="ButtonPlanTravel"
+                    onClick={handleClick}
+                  >
+                    {!show ? "Search" : "Return"}
+                  </ButtonPlanTravel>
+                )}
               </FiltersTravel>
-
               {show ? (
                 <MyTravelRecommend
                   bugetTravel={buget}
@@ -150,18 +189,41 @@ function MyTravelRegion() {
                   data={data}
                 />
               ) : null}
+             
             </FiltersContainerTravel>
           </>
         )}
-
+        {data && (!data[0].buget || !data[0].period) && (
+          <div>No data available for your selection!</div>
+        )}
         {show ? (
           <ButtonChoice
-            to={`/my-choices/${id}`}
-            onClick={() => handleAdd(country, region, buget, period, data)}
+            loc="ButtonChoice"
+           
+            onClick={() => {
+              handleAdd(country, region, buget, period, data);
+            }}
           >
             Save my Choice
           </ButtonChoice>
         ) : null}
+         {!unique &&
+                useToast(
+                  "My Choices:",
+                  `${region}, ${buget}, ${period} is already in My Choices!`,
+                  "",
+                  showA,
+                  toggleShowA
+                )}
+              {unique &&
+                onAdd &&
+                useToast(
+                  "My Choices:",
+                  `Succes ! ${region}, ${buget}, ${period} was added to My Choices!`,
+                  "",
+                  showA,
+                  toggleShowA
+                )}
       </PageContainerTravel>
     </>
   );

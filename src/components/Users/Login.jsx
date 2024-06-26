@@ -7,7 +7,7 @@ import { ButtonInfo, InfoSection, InfoUser } from "../Explore/Explore.style";
 import { Error, Loading } from "../MainHome/MainHome.style";
 import { ButtonsAccount,ButtonsText } from "../Account/Account.style";
 
-function Users (){
+function Login (){
     const { id } = useParams(); 
     const { users: user, error, loading } = useFetchUsers(`/${id}`);
     const { resetLocalData } = useLocalStorage("user");
@@ -36,12 +36,12 @@ function Users (){
           </InfoSection>
           <InfoSection loc="InfoSection">
             <ButtonsText loc="InfoUser">
-              Congratulations you have a new account. You may go explore!
+              Congratulations you have loged in. You may go explore!
             </ButtonsText>
             <ButtonsAccount loc="ButtonInfo" to={`/home`}>
               Lets go travel!
             </ButtonsAccount>
-          
+           
           </InfoSection>
         </>
       )}
@@ -50,4 +50,4 @@ function Users (){
         </>
     )
 }
-export default Users;
+export default Login;

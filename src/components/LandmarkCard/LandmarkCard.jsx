@@ -60,7 +60,7 @@ function LandmarkCard({ name, index }) {
               <Card.Img
                 className="card-img"
                 variant="top"
-                src={card.image}
+                src={card.photo}
                 alt="Image of landmark"
               />
             </CardImgContainer>

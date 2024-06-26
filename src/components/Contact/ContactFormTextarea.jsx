@@ -12,8 +12,8 @@ const ContactFormTextarea = ({
       <ContactLabel>{name} :</ContactLabel>
       <ContactTextarea
         placeholder={name}
-        defaultValue={value}
-        onBlur={(e) => handleChange(e, name)}
+        value={value}
+        onChange={(e) => handleChange(e, name)}
         type={type}
       />
       {error && <ErrorP>{error}</ErrorP>}

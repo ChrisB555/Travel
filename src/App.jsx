@@ -13,8 +13,9 @@ import MyTravelRegion from "./components/MyTravelRegion/MyTravelRegion";
 import Itinerary from "./components/Itinerary/Itinerary";
 import MyChoices from "./components/MyChoices/MyChoices";
 import Users from "./components/Users/Users";
-import Feedback from "./components/Feedback/Feedback";
+import Login from "./components/Users/Login";
 import Account from "./components/Account/Account";
+import Accomodation from "./components/Accomodation/Accomodation";
 
 import { ChoiceContext } from "./Store/context";
 import { initialStateChoice, choiceReducer } from "./Store/reducer";
@@ -53,6 +54,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/home" element={<Home />}></Route>
+       
         <Route path="/about" element={<About />}></Route>
         <Route
           path="/city-region/:country/:id"
@@ -69,10 +71,12 @@ function App() {
         ></Route>
         <Route path="/explore/:country/:city" element={<Explore />}></Route>
         <Route path="/users/:id" element={<Users />} />
-        <Route path="/feedback/:id" element={<Feedback />} />
+        <Route path="/login/:id" element={<Login />} />
         <Route path="/account" element={<Account />}></Route>
         <Route path="/itinerary" element={<Itinerary />}></Route>
         <Route path="/my-choices/:id" element={<MyChoices />}></Route>
+        <Route path="/my-choices" element={<MyChoices />}></Route>
+        <Route path="/accommodation/:id" element={<Accomodation />} />
       </Routes>
       <Footer />
       </ItineraryContext.Provider>
