@@ -226,7 +226,7 @@ const Account = () => {
             </ContactButton>)
       }
 
-       {isValid && isFound === true && show  &&
+       {isValid && isFound === true && show  && inputObj.Email !== "" &&
                 useToast(
                   "Account",
                   ` You are Loged in! user : ${inputObj.Email}`,
@@ -235,7 +235,7 @@ const Account = () => {
                   toggleShowA
                 )}
             
-          {(isFound === true && isValid && show  )? (
+          {(isFound === true && isValid && show  && inputObj.Email !== "" )? (
             <>
               <ContactButton to={`/home`}>Let's start Planning!</ContactButton>
               <ButtonsText>Or you can Log Out</ButtonsText>
@@ -243,7 +243,7 @@ const Account = () => {
                 Log Out
               </ContactButton>
             </>
-          ) : !isFound && isVisible1 && <ErrorP>No such user found</ErrorP>}
+          ) :  isVisible1 && <ErrorP>No such user found</ErrorP>}
             {isValid && !isFound && !show &&
                 useToast(
                   "Account",
@@ -269,7 +269,7 @@ const Account = () => {
               error={errorInput[el]}
             />
           ))}
-          {isValid && !isFound && (
+          {isValid && !isFound  && inputObj.Email !== "" && (
             <ContactButton
               onClick={() => {
                 addNewId();
