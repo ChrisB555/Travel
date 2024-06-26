@@ -45,16 +45,17 @@ export const LinkNavStyle = styled(Link)`
 
 export const LinkContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap:wrap;
   background:  ${WHITE_NEUTRAL};
   width: 90%;
   margin:30px auto;
-  height:auto;
+  height:80px;
 `;
 
 export const DropdownContainer = styled.div`
   display: flex;
-  flex-direction: column ;
+  flex-direction: row ;
   flex-wrap:wrap;
   width: 100%;
   position: absolute;

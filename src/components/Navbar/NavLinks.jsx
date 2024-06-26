@@ -17,7 +17,7 @@ function NavLinks({ href, title }) {
   const { localData } = useLocalStorage("user");
 
   const style={
-    marginLeft:"-20px",
+    marginLeft:"0px",
   }
 
   return (
@@ -37,7 +37,7 @@ function NavLinks({ href, title }) {
     
       <LinkNavStyle to={href}>
         {title === "Itinerary" ? (
-          <Badge  bg="warning" style={{ marginLeft: "-60px" }} >
+          <Badge  bg="warning" style={{ marginLeft: "-10px" }} >
             {stateGlobalItinerary.itineraryValue?.length +
               stateGlobalItinerary.itineraryLandmarkValue?.length >
             0
