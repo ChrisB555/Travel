@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import useFetchUsers from "../../hooks/useFetchUsers";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import {ContactContainer} from "../Contact/Contact.style";
-import { ButtonInfo, InfoSection, InfoUser } from "../Explore/Explore.style";
+import {  InfoSection,ButtonInfo } from "../Explore/Explore.style";
 import { Error, Loading } from "../MainHome/MainHome.style";
-import { ButtonsAccount,ButtonsText } from "../Account/Account.style";
+import { ButtonsAccountCreate,ButtonsText } from "../Account/Account.style";
 
 function Users (){
     const { id } = useParams(); 
@@ -30,17 +30,17 @@ function Users (){
       )}
       {user && !isObjectEmpty(user) && (
         <>
-          <InfoSection loc="InfoSection">
-            <ButtonsText loc="InfoUser"> E-mail: {user.Email}</ButtonsText>
-            <ButtonsText loc="InfoUser"> ID: {user.id}</ButtonsText>
+          <InfoSection >
+            <ButtonsText > E-mail: {user.Email}</ButtonsText>
+            <ButtonsText> ID: {user.id}</ButtonsText>
           </InfoSection>
-          <InfoSection loc="InfoSection">
-            <ButtonsText loc="InfoUser">
+          <InfoSection >
+            <ButtonsText >
               Congratulations you have a new account. You may go explore!
             </ButtonsText>
-            <ButtonsAccount loc="ButtonInfo" to={`/home`}>
+            <ButtonInfo  to={`/home`}>
               Lets go travel!
-            </ButtonsAccount>
+            </ButtonInfo>
           
           </InfoSection>
         </>

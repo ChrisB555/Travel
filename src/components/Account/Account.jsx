@@ -130,7 +130,7 @@ const Account = () => {
     handleLocalData("user", JSON.stringify(userData.id));
      dispatchChoice(removeAllChoice());
      
-    if (userData || inputObj.Email !== "") {
+    if (userData) {
       dispatchChoice(addAllChoice(userData.choices));  
       console.log(inputObj)   
     }else{
@@ -244,14 +244,7 @@ const Account = () => {
               </ContactButton>
             </>
           ) :  isVisible1 && <ErrorP>No such user found</ErrorP>}
-            {isValid && !isFound && !show &&
-                useToast(
-                  "Account",
-                  `You are Loged out!`,
-                  "",
-                  showA,
-                  toggleShowA
-                )} 
+           
           {!isValid && <ErrorP>Not valid</ErrorP>}
           {!isFound && isVisible1 && <ErrorP>No such user found</ErrorP>}
         </AccountButtonsContainer>
@@ -269,7 +262,7 @@ const Account = () => {
               error={errorInput[el]}
             />
           ))}
-          {isValid && !isFound  && inputObj.Email !== "" && (
+          {isValid && !isFound  && inputObj.Email !== ""&&(
             <ContactButton
               onClick={() => {
                 addNewId();

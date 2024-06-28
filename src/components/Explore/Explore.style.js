@@ -97,8 +97,7 @@ export const ButtonAccomodation = styled.button`
 `;
 
 export const SectionLandmarkData = styled.section`
-  /* display: flex;
-  margin: 10px 0; */
+
   display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 10px;

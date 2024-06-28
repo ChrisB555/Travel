@@ -39,6 +39,33 @@ export const ButtonsText = styled.p`
   }
 `;
 
+export const ButtonsAccountCreate = styled(Link)`
+  width: 200px;
+  height: 40px;
+  font-weight: 700;
+  font-size: 20px;
+  color: ${DARK_BLUE};
+  margin: 30px auto;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background: ${DARK_BLUE};
+    color: ${ORANGE};
+    border: solid 2px white;
+  }
+  &:focus {
+    background: ${DARK_BLUE};
+    color: ${WHITE_NEUTRAL};
+    border: solid 2px white;
+  }
+  @media screen and (max-width: 820px) {
+    margin-top: 60px;
+    width: 50%;
+    height: 25px;
+    font-size:14px;
+  }
+`;
+
 export const ButtonsAccount = styled.button`
   width: 200px;
   height: 40px;

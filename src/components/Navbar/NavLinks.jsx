@@ -14,7 +14,6 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 function NavLinks({ href, title }) {
   const { stateGlobalChoice } = useContext(ChoiceContext);
   const { stateGlobalItinerary } = useContext(ItineraryContext);
-  const { localData } = useLocalStorage("user");
 
   const style={
     marginLeft:"0px",
