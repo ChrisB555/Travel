@@ -14,7 +14,7 @@ import Itinerary from "./components/Itinerary/Itinerary";
 import MyChoices from "./components/MyChoices/MyChoices";
 import Users from "./components/Users/Users";
 import Account from "./components/Account/Account";
-import Accomodation from "./components/Accomodation/Accomodation";
+import Accommodation from "./components/Accommodation/Accommodation";
 
 import { ChoiceContext } from "./Store/context";
 import { initialStateChoice, choiceReducer } from "./Store/reducer";
@@ -74,7 +74,7 @@ function App() {
         <Route path="/itinerary" element={<Itinerary />}></Route>
         <Route path="/my-choices/:id" element={<MyChoices />}></Route>
         <Route path="/my-choices" element={<MyChoices />}></Route>
-        <Route path="/accommodation/:id" element={<Accomodation />} />
+        <Route path="/accommodation/:id" element={<Accommodation />} />
       </Routes>
       <Footer />
       </ItineraryContext.Provider>

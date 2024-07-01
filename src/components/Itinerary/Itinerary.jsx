@@ -1,16 +1,15 @@
 import { useContext } from "react";
-import { ItineraryContext } from "../../Store/itinerary/context";
-import CityCard from "../CityCard/CityCard";
-import {
-  ButtonInfo,
-  InfoSection,
-  InfoUser,
-  ButtonAccomodation,
-} from "../Explore/Explore.style";
-import LandmarkCard from "../LandmarkCard/LandmarkCard";
-import { SectionItineraryData } from "./Itinerary.style";
 import { useNavigate } from "react-router-dom";
+import { ItineraryContext } from "../../Store/itinerary/context";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import CityCard from "../CityCard/CityCard";
+import { ButtonInfo, InfoSection, InfoUser } from "../Explore/Explore.style";
+import LandmarkCard from "../LandmarkCard/LandmarkCard";
+import {
+  ItineraryData,
+  ButtonAccommodation,
+  SectionItinerary,
+} from "./Itinerary.style";
 
 function Itinerary() {
   const navigate = useNavigate();
@@ -28,46 +27,55 @@ function Itinerary() {
 
   let accommodationArray = [];
 
-  const populateAccommondationArray = (arr) => {
-    let cityArr = "";
-    let countryArr = "";
+  const checkDuplicate = (arr, obj) =>
+    arr.some(
+      (element) => element.country === obj.country && element.city === obj.city
+    );
 
-    for (let key of arr) {
-      console.log("key", key);
-      cityArr = key["city"];
-      countryArr = key["country"];
-      accommodationArray.push({ countryArr, cityArr });
-      console.log("accommodationArray", accommodationArray);
-    }
+  const populateAccommondationArray = (arr, accommodationArray) => {
+    arr.forEach((key) => {
+      const addObject = { country: key.country, city: key.city };
+      console.log(
+        "key",
+        key,
+        "addObject",
+        addObject,
+        "key.country",
+        key.country,
+        "key.city",
+        key.city
+      );
+      if (!checkDuplicate(accommodationArray, addObject)) {
+        console.log("UNIC addObject", addObject);
+        console.log("accommodationArray", accommodationArray);
+        accommodationArray.push(addObject);
+      }
+    });
     return accommodationArray;
   };
 
   const goAccomm = () => {
-    populateAccommondationArray(itineraryLandmarkValueArray);
-    populateAccommondationArray(itineraryValueArray);
+    let accommodationArray = [];
+    console.log("itineraryLandmarkValueArray", itineraryLandmarkValueArray);
+    populateAccommondationArray(
+      itineraryLandmarkValueArray,
+      accommodationArray
+    );
+    console.log("FIRST accommodationArray", accommodationArray);
+    console.log("itineraryValueArray", itineraryValueArray);
+    populateAccommondationArray(itineraryValueArray, accommodationArray);
+    console.log("SECOND accommodationArray", accommodationArray);
     console.log("GO ACCOMM");
     console.log("Navigating to: ", `/accommodation/${localData}`);
     console.log("State: ", { accommodationArray });
-    navigate(`/accommodation/${localData}`, {
-      state: [accommodationArray],
+    navigate(`/accommodation`, {
+      state: accommodationArray,
     });
   };
 
   return (
-    <>
-      <SectionItineraryData loc="SectionItineraryData">
-        {itineraryValueArray.length === 0 &&
-        itineraryLandmarkValueArray.length === 0 ? (
-          <InfoSection loc="InfoSection">
-            <InfoUser loc="InfoUser">
-              You didn't choose any itinerary yet! Go to "I Want To Explore
-              Offers" and select a destination that you like to know more about!
-            </InfoUser>
-            <ButtonInfo loc="ButtonInfo" to={`/home`}>
-              Take me back to Home screen!
-            </ButtonInfo>
-          </InfoSection>
-        ) : null}
+    <SectionItinerary loc="SectionItinerary">
+      <ItineraryData loc="ItineraryData">
         {stateGlobalItinerary &&
           itineraryValueArray?.map((element, index) => (
             <CityCard key={index} index={index} {...element} />
@@ -76,16 +84,30 @@ function Itinerary() {
           itineraryLandmarkValueArray?.map((element, index) => (
             <LandmarkCard key={index} index={index} {...element} />
           ))}
-        {stateGlobalItinerary && (
-          <ButtonAccomodation
-            loc="ButtonAccomodation"
-            onClick={() => goAccomm()}
-          >
-            I want to book accommodation!
-          </ButtonAccomodation>
-        )}
-      </SectionItineraryData>
-    </>
+      </ItineraryData>
+      {itineraryValueArray.length === 0 &&
+      itineraryLandmarkValueArray.length === 0 ? (
+        <InfoSection loc="InfoSection">
+          <InfoUser loc="InfoUser">
+            You didn't choose any itinerary yet! Go to "I Want To Explore
+            Offers" and select a destination that you like to know more about!
+          </InfoUser>
+          <ButtonInfo loc="ButtonInfo" to={`/home`}>
+            Take me back to Home screen!
+          </ButtonInfo>
+        </InfoSection>
+      ) : null}
+      {(itineraryValueArray.length !== 0 ||
+        itineraryLandmarkValueArray.length !== 0) && (
+        <ButtonAccommodation
+          loc="ButtonAccommodation"
+          onClick={() => goAccomm()}
+        >
+          I want to book accommodation!
+        </ButtonAccommodation>
+      )}
+    </SectionItinerary>
   );
 }
+
 export default Itinerary;

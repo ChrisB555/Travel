@@ -4,7 +4,7 @@ export const initialStateItinerary = {
   itineraryLandmarkValue: [],
 };
 export function itineraryReducer(state, action) {
-  console.log("state", state, "action", action);
+
   switch (action.type) {
     case "INTINERARY_PLUS": {
       console.log("itinerary plus", {

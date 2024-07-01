@@ -1,29 +1,26 @@
+
 import { useContext, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
 import { itineraryLandmarkMinus } from "../../Store/itinerary/actions";
 import { ItineraryContext } from "../../Store/itinerary/context";
 import useFetchData from "../../hooks/useFetchData";
 import { DeleteButton } from "../CityCard/CityCard.style";
-import { CardImgContainer } from "../DestinationCard/DestinationCard.style";
+import { ImgWrapper } from "../DestinationCard/DestinationCard.style";
 
 function LandmarkCard({ name, index }) {
-  console.log("name", name, "index", index);
 
   const { stateGlobalItinerary, dispatchItinerary } =
     useContext(ItineraryContext);
 
   const itineraryLandmarkValueArray =
     stateGlobalItinerary.itineraryLandmarkValue;
-  console.log("itineraryLandmarkValueArray", itineraryLandmarkValueArray);
 
   const [clicked, setClicked] = useState(true);
   const [show, setShow] = useState(0);
 
   const url = `http://localhost:3001/destinations?name=${name}`;
-  console.log("url", url);
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
-  console.log("data", "error", "loading", data, error, loading);
 
   const handleDelete = (index) => {
     dispatchItinerary(itineraryLandmarkMinus(index));
@@ -55,18 +52,17 @@ function LandmarkCard({ name, index }) {
       </Modal>
       {data &&
         data?.map((card, index) => (
-          <Card key={index} style={{ width: "18rem" }}>
-            <CardImgContainer loc="CardImgContainer">
+          <Card key={index} className="tangerine-bold">
+            <ImgWrapper loc="ImgWrapper">
               <Card.Img
-                className="card-img"
                 variant="top"
-                src={card.photo}
+                src={card.image}
                 alt="Image of landmark"
               />
-            </CardImgContainer>
-            <Card.Body className="card-body">
+            </ImgWrapper>
+            <Card.Body>
               <Card.Title>{card.name}</Card.Title>
-              <Card.Text className="card-text">{card.description}</Card.Text>
+              <Card.Text>{card.description}</Card.Text>
               <DeleteButton
                 loc="DeleteButton"
                 onClick={() => handleCloseShow(index)}

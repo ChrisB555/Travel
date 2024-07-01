@@ -41,10 +41,8 @@ function MyTravelRegion() {
   const optionBuget = ["Low buget", "Medium buget", "High buget"];
 
   const { localData } = useLocalStorage("user");
-  console.log("localData", localData);
 
   const { users: user } = useFetchUsers("/" + localData);
-  console.log("user", user);
 
   const [unique, setUnique] = useState(true);
   const [showA, setShowA] = useState(true);
@@ -65,17 +63,15 @@ function MyTravelRegion() {
   const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
 
   const handleUpdateChoice = (updateDataChoice) => {
-    console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
-    console.log("stateGlobalChoice", stateGlobalChoice);
-    console.log("updateDataChoice", updateDataChoice);
+   
     fetch(`http://localhost:3001/users/${localData}`)
       .then((response) => response.json())
       .then((userData) => {
-        // Check if the user has a 'choices' array, if not, initialize it
+       
         const updatedChoices = userData.choices
           ? [...userData.choices, updateDataChoice]
           : [updateDataChoice];
-        // Update the user data with the new choice
+     
         const updatedUserData = { ...userData, choices: updatedChoices };
 
         fetch(`http://localhost:3001/users/${localData}`, {
@@ -106,17 +102,14 @@ function MyTravelRegion() {
     );
    
     if (isDuplicate) {
-      console.log("cannot be added");
       setUnique(false);
       setShowA(true);
       clearFields();
     } else {
-      console.log("can be added");
       setUnique(true);
       dispatchChoice(addChoice(updateDataChoice));
       clearFields();
       handleUpdateChoice(updateDataChoice);
-      console.log( stateGlobalChoice.choiceValue);
     }
   };
   const handleClick = () => {

@@ -1,11 +1,14 @@
 import { useContext, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { itineraryPlus } from "../../Store/itinerary/actions";
 import { ItineraryContext } from "../../Store/itinerary/context";
 import useFetchData from "../../hooks/useFetchData";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import DestinationCard from "../DestinationCard/DestinationCard";
-import { Error, Loading } from "../MainHome/MainHome.style";
+import { Error, Loading } from "../Contact/Contact.style";
+import ToastComponent from "../Toast/ToastComponent";
 import {
+  ButtonAccommodationExplore,
   ButtonCity,
   CityDescription,
   ContainerDescriptionBottom,
@@ -13,16 +16,15 @@ import {
   ContainerTop,
   CountrySubtitle,
   ImageCity,
+  MyStamp,
   SectionCityButtons,
   SectionCityData,
+  SectionExplore,
   SectionLandmarkData,
   Subtitle,
   Title,
-  ButtonAccomodation,
+  SectionLandmarkDataWrapper,
 } from "./Explore.style";
-
-import useToast from "../../Store/user/useToast";
-import useLocalStorage from "../../hooks/useLocalStorage";
 
 const Explore = () => {
   const navigate = useNavigate();
@@ -30,22 +32,17 @@ const Explore = () => {
   const { stateGlobalItinerary, dispatchItinerary } =
     useContext(ItineraryContext);
 
-  console.log(
-    "stateGlobalItinerary",
-    stateGlobalItinerary,
-    "dispatchItinerary",
-    dispatchItinerary
-  );
-
   const itineraryValueArray = stateGlobalItinerary.itineraryValue || [];
-  console.log("itineraryValueArray", itineraryValueArray);
 
   const { localData } = useLocalStorage("user");
-  console.log("localData", localData);
 
   const { country, city } = useParams();
 
   const [clicked, setClicked] = useState(true);
+  const [showA, setShowA] = useState(false);
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastText, setToastText] = useState("");
+  const [toastClass, setToastClass] = useState("");
 
   const urlCity =
     country && city ? `http://localhost:3001/${country}?city=${city}` : null;
@@ -67,71 +64,97 @@ const Explore = () => {
   } = useFetchData(urlDestination, clicked, setClicked);
 
   const compactDataCity = dataCity ? dataCity[0] : null;
-  console.log("compactDataCity", compactDataCity);
-
-  const [unique, setUnique] = useState(true);
-  const [showA, setShowA] = useState(true);
-  const toggleShowA = () => setShowA(!showA);
-  const [onAdd, setOnAdd] = useState(false);
-
-  const handleAddItinerary = (country, city, event) => {
-    setOnAdd(true);
-    console.log("HANDLE ADD ITINERARY");
-
-    const addObject = { country, city };
-
-    console.log("ADD OBJECT", addObject);
-
-    const isDuplicate = itineraryValueArray.some(
-      (element) =>
-        element.country === addObject.country && element.city === addObject.city
-    );
-
-    if (isDuplicate) {
-      console.log("cannot be added");
-      setUnique(false);
-      setShowA(true);
-      event.preventDefault();
-    } else {
-      console.log("can be added");
-      setUnique(true);
-      dispatchItinerary(itineraryPlus({ country, city }));
-    }
-  };
 
   let accommodationArray = [];
 
-  const populateAccommondationArray = (arr) => {
-    let cityArr = "";
-    let countryArr = "";
+  const handleUpdateItinerary = (updateData) => {
+    fetch(`http://localhost:3001/users/${localData}`)
+      .then((response) => response.json())
+      .then((userData) => {
+  
+        const newData = userData.itinerarycity
+          ? [...userData.itinerarycity, updateData]
+          : [updateData];
+   
+        const updatedUserData = { ...userData, itinerarycity: newData };
 
-    for (let key of arr) {
-      console.log("key", key);
-      cityArr = key["city"];
-      countryArr = key["country"];
-      accommodationArray.push({ countryArr, cityArr });
-      console.log("accommodationArray", accommodationArray);
+        fetch(`http://localhost:3001/users/${localData}`, {
+          method: "PUT",
+          body: JSON.stringify(updatedUserData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json));
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  };
+
+  const notify = (isSuccess, nameValue, classValue) => {
+    if (isSuccess) {
+      setToastTitle("Itinerary");
+      setToastText(`Success! ${nameValue} was added to the Itinerary!`);
+      setToastClass(classValue);
+    } else {
+      setToastTitle("Itinerary");
+      setToastText(`${nameValue} is already in the Itinerary!`);
+      setToastClass(classValue);
     }
+    setShowA(true);
+  };
+
+  const checkDuplicate = (arr, obj) =>
+    arr.some(
+      (element) => element.country === obj.country && element.city === obj.city
+    );
+
+  const handleAddItinerary = (country, city, event) => {
+    const addObject = { country, city };
+
+    if (checkDuplicate(itineraryValueArray, addObject)) {
+      notify(false, city, "my-city-toast");
+      event.preventDefault();
+    } else {
+      dispatchItinerary(itineraryPlus({ country, city }));
+      handleUpdateItinerary(addObject);
+      notify(true, city, "my-city-toast");
+    }
+  };
+
+  const addObjectPair = (obj) => {
+    const addObject = { country: obj.country, city: obj.city };
+    if (!checkDuplicate(accommodationArray, addObject)) {
+      accommodationArray.push(addObject);
+    }
+  };
+
+  const populateAccommondationArray = (arr, accommodationArray) => {
+    arr.forEach((key) => addObjectPair(key));
     return accommodationArray;
   };
 
-  populateAccommondationArray(itineraryValueArray);
+  const goAccomm = (event) => {
 
-  const goAccomm = () => {
-    console.log("GO ACCOMM");
-    console.log("Navigating to: ", `/accommodation/${localData}`);
-    console.log("State: ", { accommodationArray });
-    navigate(`/accommodation/${localData}`, {
-      state: [accommodationArray],
+    if (itineraryValueArray.length !== 0) {
+      populateAccommondationArray(itineraryValueArray, accommodationArray);
+
+      handleAddItinerary(country, city, event);
+
+      addObjectPair({ country, city });
+    } else {
+      handleAddItinerary(country, city, event);
+
+      accommodationArray.push({ country, city });
+    }
+    navigate(`/accommodation`, {
+      state: accommodationArray,
     });
   };
 
   return (
-    <>
+    <SectionExplore loc="SectionExplore">
       <SectionCityData loc="SectionCityData">
-        <Title loc="Title">
-          Feel free to explore our offers regarding your selection:
-        </Title>
         {loadingCity && (
           <Loading loc="Loading">Loading... Waiting for landing...</Loading>
         )}
@@ -145,40 +168,68 @@ const Explore = () => {
         {dataCity && (
           <>
             <ContainerTop loc="ContainerTop">
+              <Title loc="Title">
+                Feel free to explore our offers regarding your selection
+              </Title>
               <ImageCity loc="ImageCity" src={compactDataCity.image} />
-              <ContainerDescriptionTop loc="ContainerDescriptionTop">
-                <CountrySubtitle loc="CountrySubtitle">
-                  Country: {country}
-                </CountrySubtitle>
-                <Subtitle loc="Subtitle">
-                  Region: {compactDataCity.reg}
-                </Subtitle>
-                <Subtitle loc="Subtitle">City: {city}</Subtitle>
-              </ContainerDescriptionTop>
+              <MyStamp loc="MyStamp">
+                <a
+                  className="stamp"
+                  href="https://www.freeiconspng.com/img/24416"
+                  title="Image from freeiconspng.com"
+                >
+                  <img
+                    src="https://www.freeiconspng.com/uploads/mail-stamp-template-png-33.png"
+                    width="350"
+                    alt="Mail Stamp Template png"
+                  />
+                </a>
+                <ContainerDescriptionTop loc="ContainerDescriptionTop">
+                  <CountrySubtitle loc="CountrySubtitle">
+                    {country}
+                  </CountrySubtitle>
+                  {compactDataCity.reg && (
+                    <Subtitle loc="Subtitle">{compactDataCity.reg}</Subtitle>
+                  )}
+                  <Subtitle loc="Subtitle">{city}</Subtitle>
+                </ContainerDescriptionTop>
+              </MyStamp>
             </ContainerTop>
             <ContainerDescriptionBottom loc="ContainerDescriptionBottom">
-              <CityDescription loc="CityDescription">
+              <CityDescription
+                className="tangerine-regular"
+                loc="CityDescription"
+              >
                 Description: {compactDataCity.description}
               </CityDescription>
             </ContainerDescriptionBottom>
           </>
         )}
       </SectionCityData>
-      <SectionLandmarkData loc="SectionLandmarkData">
-        {loadingDestination && (
-          <Loading loc="Loading">Loading... Waiting for landing...</Loading>
-        )}
-        {errorDestination && (
-          <Error loc="Error">
-            Error: {errorCity.message} Our team is called from the coffee break
-            and will take care of the problem!
-          </Error>
-        )}
-        {dataDestination &&
-          dataDestination?.map((destination, index) => (
-            <DestinationCard key={index} {...destination} />
-          ))}
-      </SectionLandmarkData>
+      <SectionLandmarkDataWrapper loc="SectionLandmarkDataWrapper">
+        <SectionLandmarkData loc="SectionLandmarkData">
+          {loadingDestination && (
+            <Loading loc="Loading">Loading... Waiting for landing...</Loading>
+          )}
+          {errorDestination && (
+            <Error loc="Error">
+              Error: {errorCity.message} Our team is called from the coffee
+              break and will take care of the problem!
+            </Error>
+          )}
+          {dataDestination &&
+            dataDestination?.map((destination, index) => (
+              <DestinationCard key={index} {...destination} notify={notify} />
+            ))}
+        </SectionLandmarkData>
+      </SectionLandmarkDataWrapper>
+      <ToastComponent
+        toastTitle={toastTitle}
+        toastText={toastText}
+        className={toastClass}
+        show={showA}
+        toggleShow={() => setShowA(false)}
+      />
       {dataCity && (
         <SectionCityButtons loc="SectionCityButtons">
           {console.log("country", country)}
@@ -190,32 +241,15 @@ const Explore = () => {
           >
             Save {city} to my itinerary!
           </ButtonCity>
-          <ButtonAccomodation
-            loc="ButtonAccomodation"
-            onClick={() => goAccomm()}
+          <ButtonAccommodationExplore
+            loc="ButtonAccommodationExplore"
+            onClick={(event) => goAccomm(event)}
           >
             I want to book accommodation!
-          </ButtonAccomodation>
+          </ButtonAccommodationExplore>
         </SectionCityButtons>
       )}
-      {!unique &&
-        useToast(
-          "Intinerary",
-          `${city} is already in the Itinerary!`,
-          "",
-          showA,
-          toggleShowA
-        )}
-      {unique &&
-        onAdd &&
-        useToast(
-          "Intinerary",
-          `Succes! ${city} was added to the Itinerary!`,
-          "",
-          showA,
-          toggleShowA
-        )}
-    </>
+    </SectionExplore>
   );
 };
 

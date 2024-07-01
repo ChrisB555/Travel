@@ -14,7 +14,6 @@ function Users (){
     const isObjectEmpty = (user) => {
       return JSON.stringify(user) === "{}";
     };
-    console.log("id", id, "user", user, "error", error, "loading", loading);
     return(
         <>
         <ContactContainer>

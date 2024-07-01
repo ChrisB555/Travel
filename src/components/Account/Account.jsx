@@ -34,9 +34,10 @@ const Account = () => {
   const [show, setShow] = useState(false);
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
+  
   const { stateGlobalChoice, dispatchChoice } = useContext(ChoiceContext);
 
-  const { localData, handleLocalData, resetLocalData } =
+  const {  handleLocalData, resetLocalData } =
     useLocalStorage("user");
 
   const handleGetAccount = () => {
@@ -77,7 +78,6 @@ const Account = () => {
     fetchData();
   }, [inputObj]);
 
-  console.log("users", users, "loading", loading, "error", error);
 
   const [errorInput, setErrorInput] = useState({
     Email: undefined,
@@ -178,7 +178,6 @@ const Account = () => {
     setInputObj(defaultObj);
   };
 
-  console.log(inputObj);
 
   return (
     <>
@@ -243,10 +242,10 @@ const Account = () => {
                 Log Out
               </ContactButton>
             </>
-          ) :  isVisible1 && <ErrorP>No such user found</ErrorP>}
+          ) :  !isFound && isVisible1 && <ErrorP>No such user found</ErrorP>}
            
           {!isValid && <ErrorP>Not valid</ErrorP>}
-          {!isFound && isVisible1 && <ErrorP>No such user found</ErrorP>}
+        
         </AccountButtonsContainer>
       )} 
       {isVisible2 && (

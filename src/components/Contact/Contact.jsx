@@ -7,6 +7,7 @@ import {
   ContactText,
   ErrorP,
 } from "./Contact.style";
+import useToast from "../../Store/user/useToast";
 
 const defaultObj = {
   Name: "",
@@ -14,10 +15,9 @@ const defaultObj = {
   Mobile: "",
   Email: "",
   Textarea: "",
-}
+};
 
 const Contact = () => {
-
   const [inputObj, setInputObj] = useState(defaultObj);
 
   const [errorInput, setErrorInput] = useState({
@@ -29,11 +29,14 @@ const Contact = () => {
   });
 
   const [isValid, setIsValid] = useState(true);
- 
+
+  const [showA, setShowA] = useState(false);
+  const toggleShowA = () => setShowA(!showA);
 
   const handleChange = (e, name) => {
     setInputObj({ ...inputObj, [name]: e.target.value });
     handleError(e.target.value, name);
+    setShowA(false);
   };
 
   const clearFields = () => {
@@ -41,7 +44,6 @@ const Contact = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(inputObj);
     const add = await fetch(`http://localhost:3001/feedback`, {
       method: "POST",
       body: JSON.stringify(inputObj),
@@ -50,11 +52,10 @@ const Contact = () => {
       },
     });
     const response = await add.json();
+    setShowA(true);
     clearFields();
     return response[0].id;
   };
-
-  
 
   const handleError = (value, name) => {
     switch (name) {
@@ -155,7 +156,6 @@ const Contact = () => {
             value={inputObj[el]}
             handleChange={handleChange}
             error={errorInput[el]}
-       
           />
         ) : (
           <ContactForm
@@ -169,15 +169,29 @@ const Contact = () => {
         )
       )}
 
-      {isValid === true && (
-        <ContactButton
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          Send Feedback
-        </ContactButton>
-      )}
+      {isValid === true &&
+        inputObj.Name !== "" &&
+        inputObj.Name !== "" &&
+        inputObj.SurName !== "" &&
+        inputObj.Mobile !== "" &&
+        inputObj.Email !== "" &&
+        inputObj.Textarea !== "" && (
+          <ContactButton
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            Send Feedback
+          </ContactButton>
+        )}
+      {isValid === true &&
+        useToast(
+          "Contact",
+          ` Yours feedback was sended !`,
+          "",
+          showA,
+          toggleShowA
+        )}
       {isValid === false && <ErrorP>Not valid</ErrorP>}
     </ContactContainer>
   );

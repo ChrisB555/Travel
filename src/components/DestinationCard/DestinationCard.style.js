@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 export const ButtonLandmark = styled(Link)`
   background: ${DARK_BLUE};
   color: ${WHITE_NEUTRAL};
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: ${TEXT_SIZE_SMALL};
+  font-weight: 500;
   width: 100%;
   padding: 6px 12px;
   margin: 2px 0;
@@ -20,8 +23,15 @@ export const ButtonLandmark = styled(Link)`
   cursor: pointer;
 `;
 
-export const CardImgContainer = styled.div`
+export const ImgWrapper = styled.div`
   display: flex;
-  height: 220px;
+  min-height: 500px;
+  height: auto;
   justify-content: center;
+  flex-wrap: wrap;
+  align-content: flex-end;
+
+  @media screen and (max-width: 700px) {
+    height: auto;
+  }
 `;

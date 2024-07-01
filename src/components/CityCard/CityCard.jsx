@@ -4,26 +4,21 @@ import { itineraryMinus } from "../../Store/itinerary/actions";
 import { ItineraryContext } from "../../Store/itinerary/context";
 import useFetchData from "../../hooks/useFetchData";
 import { DeleteButton } from "../CityCard/CityCard.style";
-import { CardImgContainer } from "../DestinationCard/DestinationCard.style";
+import { ImgWrapper } from "../DestinationCard/DestinationCard.style";
 
-function CityCard({ country, city, index }) {
-  console.log("country", country, "city", city, "index", index);
+function CityCard({ country, city, index }){
 
   const { stateGlobalItinerary, dispatchItinerary } =
     useContext(ItineraryContext);
 
   const itineraryValueArray = stateGlobalItinerary.itineraryValue;
 
-  console.log("itineraryValueArray", itineraryValueArray);
-
   const [clicked, setClicked] = useState(true);
   const [show, setShow] = useState(0);
 
   const url = `http://localhost:3001/${country}?city=${city}`;
-  console.log("url", url);
 
   const { data, error, loading } = useFetchData(url, clicked, setClicked);
-  console.log("data", "error", "loading", data, error, loading);
 
   const handleDelete = (index) => {
     dispatchItinerary(itineraryMinus(index));
@@ -55,23 +50,18 @@ function CityCard({ country, city, index }) {
       </Modal>
       {data &&
         data?.map((card, index) => (
-          <Card key={index} style={{ width: "18rem" }}>
-            <CardImgContainer loc="CardImgContainer">
-              <Card.Img
-                className="card-img"
-                variant="top"
-                src={card.image}
-                alt="Image of landmark"
-              />
-            </CardImgContainer>
-            <Card.Body className="card-body">
-              <Card.Title>{card.name}</Card.Title>
-              <Card.Text className="card-text">{card.description}</Card.Text>
+          <Card key={index} className="tangerine-bold">
+            <ImgWrapper loc="ImgWrapper">
+              <Card.Img variant="top" src={card.image} alt="Image of city" />
+            </ImgWrapper>
+            <Card.Body>
+              <Card.Title>{card.city}</Card.Title>
+              <Card.Text>{card.description}</Card.Text>
               <DeleteButton
                 loc="DeleteButton"
                 onClick={() => handleCloseShow(index)}
               >
-                Delete from Itinerary
+                Remove from My Itinerary
               </DeleteButton>
             </Card.Body>
           </Card>

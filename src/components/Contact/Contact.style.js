@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARK_BLUE, ORANGE, WHITE_NEUTRAL } from "../../constants/Colors";
+import { DARK_BLUE, ORANGE, WHITE_NEUTRAL, RED,YELLOW } from "../../constants/Colors";
 import { Link } from "react-router-dom";
 
 export const ContactContainer = styled.div`
@@ -61,4 +61,16 @@ export const ContactButton = styled.button`
 export const ErrorP = styled.p`
   color: ${ORANGE};
   width: 100%;
+`;
+
+export const Error = styled.p`
+  color: ${RED};
+  width: 100%;
+  align-self: center;
+`;
+
+export const Loading = styled.p`
+  color: ${YELLOW};
+  width: 100%;
+  align-self: center;
 `;

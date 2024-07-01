@@ -19,11 +19,9 @@ function MyTravelRecommend({ bugetTravel, periodTravel, data }) {
   const bugetTravelNoSpace = bugetTravel.replace(/ /g, "").toLowerCase();
   const periodTravelNoSpace = periodTravel.replace(/ /g, "").toLowerCase();
 
-
   const keyBuget = Object.keys(bugetData);
   const keyPeriod = Object.keys(periodData);
   
-
   const equalBugetLow =
     bugetTravelNoSpace == keyBuget[0].toLowerCase() ? true : false;
   const equalBugetMedium =

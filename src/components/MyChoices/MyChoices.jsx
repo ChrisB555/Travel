@@ -17,10 +17,6 @@ function MyChoices() {
     dispatchChoice(removeChoice(index));
   };
 
-  
-
-  console.log("stateGlobalChoice.choiceValue", stateGlobalChoice.choiceValue);
-  console.log("id", localData);
 
   return (
     <>

@@ -6,7 +6,6 @@ const useLocalStorage = (key = null) => {
 
   const resetLocalData = () => {
     localStorage.clear();
-    console.log("Local storage cleared!");
   };
 
   const handleLocalData = (key, value) => {
