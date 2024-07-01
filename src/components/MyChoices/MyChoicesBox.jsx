@@ -62,11 +62,11 @@ function MyChoicesBox({
           <Modal.Body>
             {city ? (
               <p>
-                Are you sure you want to DELETE "{city}, {period}, {buget}"{" "}
+                Are you sure you want to DELETE "{city}  {period}  {buget}"{" "}
               </p>
             ) : (
               <p>
-                Are you sure you want to DELETE "{region}, {period}, {buget}"{" "}
+                Are you sure you want to DELETE "{region}  {period}  {buget}"{" "}
               </p>
             )}
           </Modal.Body>

@@ -203,7 +203,7 @@ function MyTravelRegion() {
          {!unique &&
                 useToast(
                   "My Choices:",
-                  `${region}, ${buget}, ${period} is already in My Choices!`,
+                  `${region}  ${buget}  ${period} is already in My Choices!`,
                   "",
                   showA,
                   toggleShowA
@@ -212,7 +212,7 @@ function MyTravelRegion() {
                 onAdd &&
                 useToast(
                   "My Choices:",
-                  `Succes ! ${region}, ${buget}, ${period} was added to My Choices!`,
+                  `Succes ! ${region}  ${buget}  ${period} was added to My Choices!`,
                   "",
                   showA,
                   toggleShowA

@@ -204,7 +204,7 @@ function MyTravelCity() {
          {!unique &&
                 useToast(
                   "My Choices:",
-                  `${city}, ${buget}, ${period} is already in My Choices!`,
+                  `${city}  ${buget}  ${period} is already in My Choices!`,
                   "",
                   showA,
                   toggleShowA
@@ -213,7 +213,7 @@ function MyTravelCity() {
                 onAdd &&
                 useToast(
                   "My Choices:",
-                  `Succes ! ${city}, ${buget}, ${period} was added to My Choices!`,
+                  `Succes ! ${city}  ${buget}  ${period} was added to My Choices!`,
                   "",
                   showA,
                   toggleShowA
