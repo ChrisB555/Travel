@@ -55,7 +55,7 @@ function SelectOptionPlan() {
            {localData === null &&
                 useToast(
                   "Home",
-                 "For a better experience you  should create an account or if you already have one, login!",
+                 "For a better experience you  should go to Accounts and create an account or if you already have one, then login!",
                   "",
                   showA,
                   toggleShowA

@@ -161,7 +161,6 @@ export const ButtonCity = styled(Link)`
   transition: all 0.5s;
   &:hover {
     border: solid 2px white;
-    box-shadow: 0 0 80px ${LIFELINE_ORANGE};
   }
 `;
 
@@ -198,7 +197,6 @@ export const InfoSection = styled.div`
   align-items: center;
   padding-bottom: 10px;
   min-width: 290px;
-  height: 67vh;
   min-height: 880px;
 
   @media screen and (max-width: 1600px) {
@@ -226,8 +224,12 @@ export const InfoUser = styled.div`
 export const SectionInfoButtons = styled(SectionCityButtons)``;
 
 export const ButtonInfo = styled(ButtonCity)`
-  background: ${MIDDLE_BLUE};
+  background: ${DARK_BLUE};
   color: ${WHITE_NEUTRAL};
   width: 40%;
   align-self: center;
+  border: solid 2px white;
+  &:hover {
+   color:${ORANGE};
+  }
 `;
