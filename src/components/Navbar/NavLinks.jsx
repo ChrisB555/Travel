@@ -25,7 +25,7 @@ function NavLinks({ href, title }) {
 
       <LinkNavStyle to={href}>
         {title === "My Choices" ? (
-          <Badge bg="warning" style={style} >
+          <Badge bg="success" style={style} >
             {stateGlobalChoice.choiceValue?.length > 0
               ? stateGlobalChoice.choiceValue?.length
               : 0}{" "}
@@ -36,7 +36,7 @@ function NavLinks({ href, title }) {
     
       <LinkNavStyle to={href}>
         {title === "Itinerary" ? (
-          <Badge  bg="warning" style={{ marginLeft: "-10px" }} >
+          <Badge  bg="success" style={{ marginLeft: "-10px" }} >
             {stateGlobalItinerary.itineraryValue?.length +
               stateGlobalItinerary.itineraryLandmarkValue?.length >
             0

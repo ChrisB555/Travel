@@ -67,7 +67,7 @@ export const ButtonsAccountCreate = styled(Link)`
 `;
 
 export const ButtonsAccount = styled.button`
-  width: 200px;
+  width: 300px;
   height: 40px;
   font-weight: 700;
   font-size: 20px;
@@ -117,8 +117,8 @@ export const ContactTextarea = styled.textarea`
 `;
 
 export const ContactButton = styled(Link)`
-  max-width: 200px;
-  width: 100%;
+ 
+  width: 70%;
   height: 30px;
   margin: 25px auto;
   border-radius: 10px;

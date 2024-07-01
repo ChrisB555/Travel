@@ -197,7 +197,7 @@ export const InfoSection = styled.div`
   align-items: center;
   padding-bottom: 10px;
   min-width: 290px;
-  min-height: 880px;
+ 
 
   @media screen and (max-width: 1600px) {
     min-height: unset;

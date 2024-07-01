@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { DARK_BLUE, ORANGE, WHITE_NEUTRAL, RED,YELLOW } from "../../constants/Colors";
-import { Link } from "react-router-dom";
+
 
 export const ContactContainer = styled.div`
   display: flex;
@@ -15,10 +15,19 @@ export const ContactContainer = styled.div`
   border-radius: 30px;
   -webkit-box-shadow: 1px 1px 46px 2px #000000;
   box-shadow: 1px 1px 46px 2px #000000;
+  @media screen and (max-width: 820px) {
+    margin-top: 60px;
+    width: 90%;
+ 
+  }
 `;
 
 export const ContactText = styled.h4`
   color: ${WHITE_NEUTRAL};
+  @media screen and (max-width: 820px) {
+   font-size:16px;
+ 
+  }
 `;
 
 export const ContactLabel = styled.p`
@@ -27,18 +36,30 @@ export const ContactLabel = styled.p`
   margin: 12px auto;
   color: ${WHITE_NEUTRAL};
   text-align: left;
+  @media screen and (max-width: 820px) {
+   font-size:14px;
+ 
+  }
 `;
 export const ContactInput = styled.input`
   width: 80%;
   height: 40px;
   margin: 5px auto;
   border-radius: 5px;
+  @media screen and (max-width: 820px) {
+  width:100%;
+ 
+  }
 `;
 
 export const ContactTextarea = styled.textarea`
   width: 80%;
   height: 100px;
   margin: 10px auto;
+  @media screen and (max-width: 820px) {
+    width:100%;
+ 
+  }
 `;
 
 export const ContactButton = styled.button`
